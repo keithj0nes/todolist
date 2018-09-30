@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, KeyboardAvoidingView } from 'react-native';
+import { HeaderBackButton } from 'react-navigation';
 import firebase from 'firebase';
+import mainStyles from '../assets/styles'
+
 
 class SignUpScreen extends Component {
 
-
+  // static navigationOptions = {
+  //   headerStyle: {
+  //     borderBottomWidth: 0,
+  //     backgroundColor: mainStyles.light
+  //   }
+  // }
   state = {
     email: '',
     password: ''
@@ -31,6 +39,7 @@ class SignUpScreen extends Component {
     // console.log(firebase.auth().currentUser);
     return (
       <View style={styles.container}>
+        <HeaderBackButton onPress={()=>this.props.navigation.goBack()} />
         <Text>Sign Up Screen</Text>
         <TextInput
           style={styles.input}
@@ -53,7 +62,7 @@ export default SignUpScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: mainStyles.light,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20

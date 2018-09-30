@@ -27,7 +27,18 @@ const AuthStack = createStackNavigator({
       header: null
     }
   },
-  SignUp: SignUpScreen
+  SignUp: {
+    screen: SignUpScreen,
+    // navigationOptions: {
+    //   headerStyle: {
+    //     borderBottomWidth: 0,
+    //     backgroundColor: mainStyles.light
+    //   }
+    // }
+    navigationOptions: {
+      header: null
+    }
+  }
 });
 
 const RootStack = createSwitchNavigator(

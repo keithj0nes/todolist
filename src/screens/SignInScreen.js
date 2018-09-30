@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, KeyboardAvoidingView } from 'react-native';
 import firebase from 'firebase';
-
+import mainStyles from '../assets/styles'
 class SignInScreen extends Component {
 
 
@@ -57,7 +57,7 @@ export default SignInScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'pink',
+    backgroundColor: mainStyles.light,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20
