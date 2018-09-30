@@ -7,7 +7,8 @@ class Modal extends Component {
 
 static propTypes = {
   isVisible: Proptypes.bool.isRequired,
-  toggleFunc: Proptypes.func.isRequired
+  toggleFunc: Proptypes.func.isRequired,
+  message: Proptypes.string
 }
   render(){
 
@@ -15,7 +16,7 @@ static propTypes = {
       return (
         <View style={styles.container}>
           <View style={styles.box}>
-            <Text>{'Modal is open!'}</Text>
+            <Text>{this.props.message}</Text>
             <Button title="CLOSE ME" onPress={this.props.toggleFunc} />
           </View>
         </View>
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.75)',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
