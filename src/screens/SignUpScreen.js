@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, KeyboardAvoidingView } from 'react-native';
 import firebase from 'firebase';
 
-class SignInScreen extends Component {
+class SignUpScreen extends Component {
 
 
   state = {
@@ -11,7 +11,7 @@ class SignInScreen extends Component {
   }
 
   handleSignIn = async () => {
-    console.log('signing in!');
+    console.log('signing up!');
 
     // firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(res => {
     //   console.log(res.user, 'user!');
@@ -19,7 +19,7 @@ class SignInScreen extends Component {
     //
     // })
 
-    const data = await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(err => console.log(err, 'err'));
+    const data = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(err => console.log(err, 'err'));
     if(data){
        this.props.navigation.navigate('App');
     } else {
@@ -31,7 +31,7 @@ class SignInScreen extends Component {
     // console.log(firebase.auth().currentUser);
     return (
       <View style={styles.container}>
-        <Text>SignInScreen</Text>
+        <Text>Sign Up Screen</Text>
         <TextInput
           style={styles.input}
           placeholder={'email'}
@@ -43,16 +43,12 @@ class SignInScreen extends Component {
           placeholder={'password'}
           onChangeText={password => this.setState({password})}/>
         <Button title="Submit" onPress={this.handleSignIn} />
-
-        <View  style={{marginTop: 40}}/>
-        <Button title="Sign Up"   color="green" onPress={() => this.props.navigation.navigate('SignUp')} />
-
       </View>
     )
   }
 }
 
-export default SignInScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {

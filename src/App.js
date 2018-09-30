@@ -7,6 +7,7 @@ import './config';
 import Home from './screens/Home';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import SignInScreen from './screens/SignInScreen';
+import SignUpScreen from './screens/SignUpScreen';
 
 
 
@@ -25,7 +26,8 @@ const AuthStack = createStackNavigator({
     navigationOptions: {
       header: null
     }
-  }
+  },
+  SignUp: SignUpScreen
 });
 
 const RootStack = createSwitchNavigator(
