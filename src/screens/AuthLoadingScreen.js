@@ -18,7 +18,7 @@ class AuthLoadingScreen extends React.Component {
     setTimeout(function () {
       that.props.navigation.navigate(userToken ? 'App' : 'Auth');
 
-    }, 2000);
+    }, 500);
   };
 
   // Render any loading content that you like here

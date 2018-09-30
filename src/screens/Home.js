@@ -1,9 +1,11 @@
 import React, { Component} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import firebase from 'firebase';
 
 class Home extends Component {
 
   render(){
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
