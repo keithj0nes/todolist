@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, KeyboardAvoidingView } from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
 import firebase from 'firebase';
+
+import Modal from '../components/Modal';
 import mainStyles from '../assets/styles'
 
 
@@ -15,7 +17,8 @@ class SignUpScreen extends Component {
   // }
   state = {
     email: '',
-    password: ''
+    password: '',
+    modalVisible: false
   }
 
   handleSignIn = async () => {
@@ -38,21 +41,35 @@ class SignUpScreen extends Component {
   render(){
     // console.log(firebase.auth().currentUser);
     return (
-      <View style={styles.container}>
-        <HeaderBackButton onPress={()=>this.props.navigation.goBack()} />
-        <Text>Sign Up Screen</Text>
-        <TextInput
-          style={styles.input}
-          placeholder={'email'}
-          onChangeText={email => this.setState({email})}/>
+      <View style={{flex: 1}}>
 
-        <TextInput
-          style={styles.input}
-          autoCapitalize={"none"}
-          placeholder={'password'}
-          onChangeText={password => this.setState({password})}/>
-        <Button title="Submit" onPress={this.handleSignIn} />
+        <View style={styles.container}>
+          <HeaderBackButton onPress={()=>this.props.navigation.goBack()} />
+          <Text>Sign Up Screen</Text>
+          <TextInput
+            style={styles.input}
+            placeholder={'email'}
+            onChangeText={email => this.setState({email})}/>
+
+          <TextInput
+            style={styles.input}
+            autoCapitalize={"none"}
+            placeholder={'password'}
+            onChangeText={password => this.setState({password})}/>
+
+          <Button title="Submit" onPress={this.handleSignIn} />
+
+
+          <Button title="Add Modal" onPress={()=>this.setState({modalVisible: !this.state.modalVisible})} />
+
+        </View>
+
+        <Modal
+          isVisible={this.state.modalVisible}
+          toggleFunc={()=>{this.setState({modalVisible: !this.state.modalVisible})}}/>
+
       </View>
+
     )
   }
 }
