@@ -10,6 +10,7 @@ import mainStyles from '../assets/styles'
 class SignUpScreen extends Component {
 
   state = {
+    name: '',
     email: '',
     password: '',
     passwordConfirm: '',
@@ -31,11 +32,11 @@ class SignUpScreen extends Component {
 
     const reg = /^[a-zA-Z0-9]{6,}$/;
     const regEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    const {email, password, passwordConfirm} = this.state;
+    const {name, email, password, passwordConfirm} = this.state;
 
 
-    if(!email || !password){
-      return this.setState({message: 'Please enter both email and password', modalVisible: true, loading: false});
+    if(!name || !email || !password){
+      return this.setState({message: 'Please enter all fields', modalVisible: true, loading: false});
     }
 
     if(password !== passwordConfirm){
@@ -50,15 +51,21 @@ class SignUpScreen extends Component {
       return this.setState({message: 'Password must be 6 characters long', modalVisible: true, loading: false})
     }
 
-    // const data = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(err => console.log(err, 'err'));
-    // if(data){
-    //    this.setState({loading: false})
-    //    this.props.navigation.navigate('App');
-    // } else {
-    //   console.log('THERE WAS AN ERROR');
-    //   return this.setState({message: 'There was an error signing you up. Please try again', modalVisible: true, loading: false})
+    const data = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(err => console.log(err, 'err'));
+    if(data){
+      const { uid } = data.user;
+      firebase.database().ref(`users/${uid}/profile`).set({
+        name: this.state.name,
+        email: this.state.email
+      })
+      console.log(data, 'data');
+      this.setState({loading: false})
+      this.props.navigation.navigate('App');
+    } else {
+      console.log('THERE WAS AN ERROR');
+      return this.setState({message: 'There was an error signing you up. Please try again', modalVisible: true, loading: false})
 
-    // }
+    }
   }
 
   render(){
@@ -72,6 +79,16 @@ class SignUpScreen extends Component {
 
           </View>
           <Text>Sign Up Screen</Text>
+
+          <TextInput
+            style={styles.input}
+            autoCapitalize={"none"}
+            placeholder={'name'}
+            onChangeText={name => this.setState({name})}
+            secureTextEntry
+            autoCorrect={false}/>
+
+
           <TextInput
             style={styles.input}
             autoCapitalize={"none"}
