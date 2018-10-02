@@ -1,13 +1,35 @@
 import React, { Component} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import firebase from 'firebase';
 
 class Home extends Component {
 
-  render(){
 
+  state = {
+    categories: null
+  }
+
+  componentDidMount(){
+    const { uid } = firebase.auth().currentUser;
+
+    firebase.database().ref(`users/${uid}/categories`).on('value', snapshot => {
+      this.setState({categories: snapshot.val()})
+    })
+  }
+
+
+  addCategory = () => {
+    const { uid } = firebase.auth().currentUser;
+
+    firebase.database().ref(`users/${uid}/categories/`).push({
+      title: 'work'
+    })
+  }
+
+  render(){
+    console.log(this.state, 'this.state');
     const { displayName } = firebase.auth().currentUser;
-    console.log(firebase.auth().currentUser);
+    // console.log(firebase.auth().currentUser);
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -41,9 +63,9 @@ class Home extends Component {
             </View>
           </View>
 
-          <View style={[styles.category, {justifyContent: 'center'}]}>
+          <TouchableOpacity style={[styles.category, {justifyContent: 'center'}]} onPress={this.addCategory}>
             <Text style={styles.categoryAdd}> + </Text>
-          </View>
+          </TouchableOpacity>
 
         </View>
       </View>
