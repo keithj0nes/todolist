@@ -53,11 +53,13 @@ class SignUpScreen extends Component {
 
     const data = await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(err => console.log(err, 'err'));
     if(data){
+      data.user.updateProfile({displayName: this.state.name})
       const { uid } = data.user;
       firebase.database().ref(`users/${uid}/profile`).set({
         name: this.state.name,
         email: this.state.email
       })
+
       console.log(data, 'data');
       this.setState({loading: false})
       this.props.navigation.navigate('App');

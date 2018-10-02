@@ -6,10 +6,12 @@ class Home extends Component {
 
   render(){
 
+    const { displayName } = firebase.auth().currentUser;
+    console.log(firebase.auth().currentUser);
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.helloText}>Hello Jason</Text>
+          <Text style={styles.helloText}>Hello {displayName}</Text>
           <Text style={styles.tasksCompletedText}>13 tasks not completed</Text>
         </View>
 
