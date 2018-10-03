@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, AsyncStorage, StatusBar, StyleSheet, View } from 'react-native';
+import firebase from 'firebase';
 
 class AuthLoadingScreen extends React.Component {
   constructor(props) {
@@ -15,10 +16,13 @@ class AuthLoadingScreen extends React.Component {
     // screen will be unmounted and thrown away.
 
     const that = this;
-    setTimeout(function () {
+    // setTimeout(function () {
+      if(userToken){
+        await firebase.auth().signInWithEmailAndPassword()
+      }
       that.props.navigation.navigate(userToken ? 'App' : 'Auth');
 
-    }, 500);
+    // }, 500);
   };
 
   // Render any loading content that you like here

@@ -38,44 +38,50 @@ class Home extends Component {
     const { displayName } = firebase.auth().currentUser;
     // console.log(firebase.auth().currentUser);
     return (
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.helloText}>Hello {displayName}</Text>
-          <Text style={styles.tasksCompletedText}>13 tasks not completed</Text>
-        </View>
-
-        <View style={styles.categoryContainer}>
-
-          <View style={styles.category}>
-            <View style={[styles.categoryIcon, {backgroundColor: 'purple'}]}></View>
-            <View style={styles.categoryTextContainer}>
-              <Text style={styles.categoryTitle}>Work</Text>
-              <Text style={styles.categoryTasks}>3 tasks</Text>
-            </View>
+      <View style={{flex: 1}}>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.helloText}>Hello {displayName}</Text>
+            <Text style={styles.tasksCompletedText}>13 tasks not completed</Text>
           </View>
 
-          <View style={styles.category}>
-            <View style={[styles.categoryIcon, {backgroundColor: 'blue'}]}></View>
-            <View style={styles.categoryTextContainer}>
-              <Text style={styles.categoryTitle}>Personal</Text>
-              <Text style={styles.categoryTasks}>5 tasks</Text>
+          <View style={styles.categoryContainer}>
+
+            {/*<View style={styles.category}>
+              <View style={[styles.categoryIcon, {backgroundColor: 'purple'}]}></View>
+              <View style={styles.categoryTextContainer}>
+                <Text style={styles.categoryTitle}>Work</Text>
+                <Text style={styles.categoryTasks}>3 tasks</Text>
+              </View>
             </View>
-          </View>
 
-          <View style={styles.category}>
-            <View style={styles.categoryIcon}></View>
-            <View style={styles.categoryTextContainer}>
-              <Text style={styles.categoryTitle}>Life</Text>
-              <Text style={styles.categoryTasks}>2 tasks</Text>
+            <View style={styles.category}>
+              <View style={[styles.categoryIcon, {backgroundColor: 'blue'}]}></View>
+              <View style={styles.categoryTextContainer}>
+                <Text style={styles.categoryTitle}>Personal</Text>
+                <Text style={styles.categoryTasks}>5 tasks</Text>
+              </View>
             </View>
+
+            <View style={styles.category}>
+              <View style={styles.categoryIcon}></View>
+              <View style={styles.categoryTextContainer}>
+                <Text style={styles.categoryTitle}>Life</Text>
+                <Text style={styles.categoryTasks}>2 tasks</Text>
+              </View>
+            </View>*/}
+
+            {/*<TouchableOpacity style={[styles.category, {justifyContent: 'center'}]} onPress={()=>this.setState({addModalVisible: !this.state.addModalVisible})}>
+              <Text style={styles.categoryAdd}> + </Text>
+            </TouchableOpacity>*/}
+
+            <TouchableOpacity style={{backgroundColor: 'red', padding: 20}} onPress={()=>this.setState({addModalVisible: !this.state.addModalVisible})}>
+              <Text style={styles.categoryAdd}> + </Text>
+            </TouchableOpacity>
+
+
+
           </View>
-
-          <TouchableOpacity style={[styles.category, {justifyContent: 'center'}]} onPress={()=>this.setState({addModalVisible: !this.state.addModalVisible})}>
-            <Text style={styles.categoryAdd}> + </Text>
-          </TouchableOpacity>
-
-
-
         </View>
 
         <AddModal
@@ -85,6 +91,8 @@ class Home extends Component {
           onSubmit={this.addCategory}
           />
       </View>
+
+
     )
   }
 }

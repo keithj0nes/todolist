@@ -8,11 +8,12 @@ class AddModal extends Component {
 static propTypes = {
   isVisible: Proptypes.bool.isRequired,
   toggleFunc: Proptypes.func.isRequired,
-  message: Proptypes.string
+  onSubmit: Proptypes.func,
+  onChangeText: Proptypes.func,
 }
   render(){
 
-    if(this.props.isVisible ){
+    if(this.props.isVisible){
       return (
         <View style={styles.container}>
           <View style={styles.box}>
@@ -49,5 +50,10 @@ const styles = StyleSheet.create({
   box: {
     padding: 20,
     backgroundColor: 'white'
+  },
+  input: {
+    backgroundColor: '#f1f1f1',
+    borderWidth: 1,
+    borderColor: 'black',
   }
 })

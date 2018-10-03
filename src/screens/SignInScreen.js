@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TextInput, Button, KeyboardAvoidingView, AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 
 import Modal from '../components/Modal';
@@ -39,7 +39,14 @@ class SignInScreen extends Component {
 
     const data = await firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch(err => console.log(err, 'err'));
     if(data){
-       this.props.navigation.navigate('App');
+      var userToken = '32942845';
+
+      var updates = {};
+      updates[`users/${data.user.uid}/profile/userToken`] = userToken;
+
+      firebase.database().ref().update(updates)
+      AsyncStorage.setItem('userToken', userToken)
+      this.props.navigation.navigate('App');
     } else {
       return this.setState({message: 'Incorrect email or password', modalVisible: true, loading: false})
     }
