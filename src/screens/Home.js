@@ -2,11 +2,15 @@ import React, { Component} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import firebase from 'firebase';
 
+import AddModal from '../components/AddModal';
+
 class Home extends Component {
 
 
   state = {
-    categories: null
+    catText: '',
+    categories: null,
+    addModalVisible: false,
   }
 
   componentDidMount(){
@@ -20,10 +24,13 @@ class Home extends Component {
 
   addCategory = () => {
     const { uid } = firebase.auth().currentUser;
-
     firebase.database().ref(`users/${uid}/categories/`).push({
       title: 'work'
     })
+  }
+
+  handleCategoryText = (catText) => {
+    this.setState({catText})
   }
 
   render(){
@@ -66,6 +73,8 @@ class Home extends Component {
           <TouchableOpacity style={[styles.category, {justifyContent: 'center'}]} onPress={this.addCategory}>
             <Text style={styles.categoryAdd}> + </Text>
           </TouchableOpacity>
+
+
 
         </View>
       </View>
