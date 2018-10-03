@@ -75,6 +75,18 @@ class Home extends Component {
               <Text style={styles.categoryAdd}> + </Text>
             </TouchableOpacity>*/}
 
+
+            {this.state.categories && Object.keys(this.state.categories).map((item, index) => {
+              return (
+                <View style={styles.category} key={item}>
+                  <View style={styles.categoryTextContainer}>
+                    <Text style={styles.categoryTitle}>{this.state.categories[item].title}</Text>
+                  </View>
+                </View>
+              )
+
+            })}
+
             <TouchableOpacity style={{backgroundColor: 'red', padding: 20}} onPress={()=>this.setState({addModalVisible: !this.state.addModalVisible})}>
               <Text style={styles.categoryAdd}> + </Text>
             </TouchableOpacity>
@@ -114,8 +126,8 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   categoryContainer: {
-    // backgroundColor: 'blue',
-    flex: 1,
+    backgroundColor: 'blue',
+    // flex: 1,
     flexDirection: 'row',
     width: '100%',
     paddingTop: 22,
