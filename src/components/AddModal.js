@@ -23,8 +23,9 @@ static propTypes = {
               placeholder={'Enter Category'}
               onChangeText={cat => this.props.onChangeText(cat)}/>
 
+            <Button title="Add Category" onPress={this.props.onSubmit} />
 
-            <Button title="CLOSE ME" onPress={this.props.toggleFunc} />
+            <Button title="Cancel" onPress={this.props.toggleFunc} />
           </View>
         </View>
       )

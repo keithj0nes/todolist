@@ -25,7 +25,7 @@ class Home extends Component {
   addCategory = () => {
     const { uid } = firebase.auth().currentUser;
     firebase.database().ref(`users/${uid}/categories/`).push({
-      title: 'work'
+      title: this.state.catText
     })
   }
 
@@ -70,13 +70,20 @@ class Home extends Component {
             </View>
           </View>
 
-          <TouchableOpacity style={[styles.category, {justifyContent: 'center'}]} onPress={this.addCategory}>
+          <TouchableOpacity style={[styles.category, {justifyContent: 'center'}]} onPress={()=>this.setState({addModalVisible: !this.state.addModalVisible})}>
             <Text style={styles.categoryAdd}> + </Text>
           </TouchableOpacity>
 
 
 
         </View>
+
+        <AddModal
+          isVisible={this.state.addModalVisible}
+          toggleFunc={()=>{this.setState({addModalVisible: !this.state.addModalVisible})}}
+          onChangeText={this.handleCategoryText}
+          onSubmit={this.addCategory}
+          />
       </View>
     )
   }
