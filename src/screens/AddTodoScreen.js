@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import firebase from 'firebase';
 
 class AddTodoScreen extends Component {
 
@@ -11,7 +12,18 @@ class AddTodoScreen extends Component {
   }
 
 
+  addTodo = async () => {
+    const { uid, categoryKey, todoText } = this.state
+    const date = new Date();
+    const todoInfo = {
+      date,
+      completed: false,
+      title: todoText
+    }
 
+    await firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).push(todoInfo);
+    this.props.navigation.goBack();
+  }
 
   componentDidMount(){
     const uid = this.props.navigation.getParam('uid');
@@ -27,6 +39,15 @@ class AddTodoScreen extends Component {
         <Text>
           AddTodoScreen
         </Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder={'todo'}
+          onChangeText={todoText => this.setState({todoText})}/>
+
+          <TouchableOpacity style={styles.submit} onPress={this.addTodo}>
+            <Text>Submit</Text>
+          </TouchableOpacity>
       </View>
     )
   }
@@ -40,5 +61,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  input: {
+    backgroundColor: 'white',
+    padding: 10,
+    width: '100%',
+    marginVertical: 5
+  },
+  submit: {
+    backgroundColor: 'pink',
+    padding: 20,
   }
 })
