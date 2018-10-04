@@ -11,20 +11,20 @@ class Home extends Component {
     catText: '',
     categories: null,
     addModalVisible: false,
+    uid: ''
   }
 
   componentDidMount(){
-    const { uid } = firebase.auth().currentUser;
-
+    const { displayName, uid } = firebase.auth().currentUser;
     firebase.database().ref(`users/${uid}/categories`).on('value', snapshot => {
-      this.setState({categories: snapshot.val()})
+      this.setState({categories: snapshot.val(), uid, displayName})
     })
   }
 
 
   addCategory = () => {
-    const { uid } = firebase.auth().currentUser;
-    firebase.database().ref(`users/${uid}/categories/`).push({
+    // const { uid } = firebase.auth().currentUser;
+    firebase.database().ref(`users/${this.state.uid}/categories/`).push({
       title: this.state.catText
     })
   }
@@ -35,13 +35,13 @@ class Home extends Component {
 
   render(){
     console.log(this.state, 'this.state');
-    const { displayName } = firebase.auth().currentUser;
+    // const { displayName, uid} = firebase.auth().currentUser;
     // console.log(firebase.auth().currentUser);
     return (
       <View style={{flex: 1}}>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.helloText}>Hello {displayName}</Text>
+            <Text style={styles.helloText}>Hello {this.state.displayName}</Text>
             <Text style={styles.tasksCompletedText}>13 tasks not completed</Text>
           </View>
 
@@ -76,13 +76,13 @@ class Home extends Component {
             </TouchableOpacity>*/}
 
 
-            {this.state.categories && Object.keys(this.state.categories).map((item, index) => {
+            {this.state.categories && Object.keys(this.state.categories).map((categoryKey, index) => {
               return (
-                <View style={styles.category} key={item}>
+                <TouchableOpacity style={styles.category} key={categoryKey} onPress={()=>this.props.navigation.navigate('Todo',{categoryKey, uid: this.state.uid})}>
                   <View style={styles.categoryTextContainer}>
-                    <Text style={styles.categoryTitle}>{this.state.categories[item].title}</Text>
+                    <Text style={styles.categoryTitle}>{this.state.categories[categoryKey].title}</Text>
                   </View>
-                </View>
+                </TouchableOpacity>
               )
 
             })}

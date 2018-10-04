@@ -8,12 +8,20 @@ import Home from './screens/Home';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
+import TodoScreen from './screens/TodoScreen';
+
 
 
 
 const AppStack = createStackNavigator({
   Home: {
     screen: Home,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Todo: {
+    screen: TodoScreen,
     navigationOptions: {
       header: null
     }
