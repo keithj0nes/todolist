@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import firebase from 'firebase';
 
 class TodoScreen extends Component {
 
   state = {
-    todos: []
+    todos: [],
+    uid: '',
+    categoryKey: ''
   }
 
   componentDidMount(){
     const categoryKey = this.props.navigation.getParam('categoryKey');
     const uid = this.props.navigation.getParam('uid');
     firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).on('value', snapshot => {
-      this.setState({todos: snapshot.val() || []})
+      this.setState({ todos: snapshot.val() || [], uid, categoryKey })
     })
   }
 
@@ -45,6 +47,9 @@ class TodoScreen extends Component {
 
           {this.renderTodos()}
 
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddTodo', {uid: this.state.uid, categoryKey: this.state.categoryKey})}>
+            <Text>Add Todo</Text>
+          </TouchableOpacity>
         </View>
       </View>
     )
