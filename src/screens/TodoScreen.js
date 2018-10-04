@@ -19,12 +19,13 @@ class TodoScreen extends Component {
   }
 
   renderTodos = () => {
-    if(this.state.todos.length > 0){
-      this.state.todos.map((item, index) => {
+    console.log(this.state.todos, 'this.state.todos');
+    if(Object.keys(this.state.todos).length > 0){
+      return Object.keys(this.state.todos).map(item => {
         console.log(item, 'logging item');
         return (
-          <View key={index}>
-            <Text>{item}</Text>
+          <View style={{backgroundColor: '#e9e8c3', padding: 10}} key={item}>
+            <Text>{this.state.todos[item].title}</Text>
           </View>
         )
       })
