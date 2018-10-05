@@ -36,7 +36,7 @@ export const getAllCount = (state = {}, action) => {
   const {type, payload} = action;
   switch(type){
     case "FETCH_SUCCESS":
-      return {...state, payload: action.payload, isLoading: false};
+      return {...state, payload: payload, isLoading: false};
     case "FETCH_FAILURE":
       console.log(payload, 'fetch failed');
       return {...state, error: payload, isLoading: false};
@@ -44,6 +44,22 @@ export const getAllCount = (state = {}, action) => {
       return state;
   }
 }
+
+export const getTasks = (state = {}, action) => {
+  const {type, payload} = action;
+  switch(type){
+    case "FETCH_TASKS_SUCCESS":
+    console.log(payload, 'PAYLOAD IN TAKSTS SUCESS');
+      return {...state, payload: payload, isLoading: false};
+    case "FETCH_TASKS_FAILURE":
+      console.log(payload, 'fetch tasks failed');
+      return {...state, error: payload, isLoading: false};
+    default:
+      return state;
+  }
+}
+
+
 
 export const addCategory = (state = {}, action) => {
   const {type, payload} = action;
