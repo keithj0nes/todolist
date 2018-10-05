@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 
-import authReducer, {addStoryReducer,captureReducer} from './authReducer';
+import authReducer, {getAllCount, addCategory} from './authReducer';
 
 export default combineReducers({
   user: authReducer,
-  addStory: addStoryReducer,
-  capture: captureReducer
+  getAllCount,
+  addCategory
+  // capture: captureReducer
 })

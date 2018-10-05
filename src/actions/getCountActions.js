@@ -27,14 +27,15 @@ import firebase from 'firebase';
 // }
 
 export const getCount = () => dispatch => {
-  console.log('get coutng');
   const { uid } = firebase.auth().currentUser;
+
+  console.log('get coutng');
   try {
     firebase.database().ref(`users/${uid}/count`).on('value', snapshot => {
       console.log(snapshot.val(), 'snapshot.val');
       dispatch({
         type: 'FETCH_SUCCESS',
-        payload: snapshot.val()
+        payload: snapshot.val() || 0
       })
     })
   }
@@ -49,3 +50,27 @@ export const getCount = () => dispatch => {
   //
   // }
 }
+
+export const addCategory = title => dispatch => {
+  const { uid } = firebase.auth().currentUser;
+  
+  return firebase.database().ref(`users/${uid}/categories/`).push({
+    title
+  }).then(() => {
+    dispatch({
+      type: 'ADD_CAT_SUCCESS',
+      // payload: snapshot.val()
+    })
+  }).catch(err => {
+    dispatch({
+      type: 'ADD_CAT_FAILURE',
+      payload: err
+    })
+  })
+}
+
+
+// export const addTask = title => dispatch => {
+//   const { uid } = firebase.auth().currentUser;
+//
+// }

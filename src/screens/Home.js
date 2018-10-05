@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { getCount } from '../actions/getCountActions';
+import { getCount, addCategory } from '../actions/getCountActions';
 
 import AddModal from '../components/AddModal';
 
@@ -28,9 +28,11 @@ class Home extends Component {
 
   addCategory = () => {
     // const { uid } = firebase.auth().currentUser;
-    firebase.database().ref(`users/${this.state.uid}/categories/`).push({
-      title: this.state.catText
-    })
+    // firebase.database().ref(`users/${this.state.uid}/categories/`).push({
+    //   title: this.state.catText
+    // })
+
+    this.props.addCategory(this.state.catText)
   }
 
   handleCategoryText = (catText) => {
@@ -38,7 +40,7 @@ class Home extends Component {
   }
 
   render(){
-    console.log(this.state, 'this.state');
+    console.log(this.props, 'this.props');
     // const { displayName, uid} = firebase.auth().currentUser;
     // console.log(firebase.auth().currentUser);
     return (
@@ -46,7 +48,7 @@ class Home extends Component {
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.helloText}>Hello {this.state.displayName}</Text>
-            <Text style={styles.tasksCompletedText}>13 tasks not completed</Text>
+            <Text style={styles.tasksCompletedText}>{this.props.allCount} total tasks</Text>
           </View>
 
           <View style={styles.categoryContainer}>
@@ -113,13 +115,22 @@ class Home extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
+  console.log(state, 'state');
   return {
-    getCount: () => dispatch(getCount())
+    allCount: state.getAllCount.payload
   }
 }
 
-export default connect(null, mapDispatchToProps)(Home);
+const mapDispatchToProps = dispatch => {
+  return {
+    getCount: () => dispatch(getCount()),
+    addCategory: title => dispatch(addCategory(title))
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 
 const styles = StyleSheet.create({

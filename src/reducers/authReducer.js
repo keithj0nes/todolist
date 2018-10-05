@@ -32,21 +32,39 @@ export const addStoryReducer = (state = {}, action) => {
 
 
 
-export const captureReducer = (state = {}, action) => {
+export const getAllCount = (state = {}, action) => {
   const {type, payload} = action;
-  console.log(type, payload, 'haha captureReducer');
   switch(type){
-    case "WHICH_CAPTURE":
-      return {captureType: payload};
+    case "FETCH_SUCCESS":
+      return {...state, payload: action.payload, isLoading: false};
+    case "FETCH_FAILURE":
+      console.log(payload, 'fetch failed');
+      return {...state, error: payload, isLoading: false};
     default:
       return state;
   }
 }
 
-export const getCount = (state = {}, action) => {
-  const { type, payload } = action;
+export const addCategory = (state = {}, action) => {
+  const {type, payload} = action;
+  switch(type){
+    case "ADD_CAT_SUCCESS":
+      return {...state, isLoading: false};
+    case "ADD_CAT_FAILURE":
+      console.log(payload, 'addCategory failed');
+      return {...state, error: payload, isLoading: false};
+    default:
+      return state;
+  }
 
 }
+
+// export const getCount = (state = {}, action) => {
+//   const { type, payload } = action;
+//   // switch(type){
+//   //   case
+//   // }
+// }
 
 
 //
