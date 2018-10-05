@@ -1,6 +1,8 @@
 import React, { Component} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import firebase from 'firebase';
+import { getCount } from '../actions/getCountActions';
 
 import AddModal from '../components/AddModal';
 
@@ -19,6 +21,8 @@ class Home extends Component {
     firebase.database().ref(`users/${uid}/categories`).on('value', snapshot => {
       this.setState({categories: snapshot.val(), uid, displayName})
     })
+
+    this.props.getCount();
   }
 
 
@@ -109,7 +113,13 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapDispatchToProps = dispatch => {
+  return {
+    getCount: () => dispatch(getCount())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Home);
 
 
 const styles = StyleSheet.create({

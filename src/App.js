@@ -3,6 +3,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import './config';
 
+////// Redux //////
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import reducers from './reducers';
+import thunk from 'redux-thunk';
+
 ////// Screens //////
 import Home from './screens/Home';
 import AuthLoadingScreen from './screens/AuthLoadingScreen';
@@ -11,6 +17,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import TodoScreen from './screens/TodoScreen';
 import AddTodoScreen from './screens/AddTodoScreen';
 
+const store = createStore(reducers, {}, applyMiddleware(thunk));
 
 
 
@@ -69,4 +76,4 @@ const RootStack = createSwitchNavigator(
 
 
 
-export default App = () => <RootStack />;
+export default App = () => <Provider store={store}><RootStack /></Provider>;

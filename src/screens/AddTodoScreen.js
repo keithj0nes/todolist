@@ -21,7 +21,23 @@ class AddTodoScreen extends Component {
       title: todoText
     }
 
-    await firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).push(todoInfo);
+
+    const newPostKey = firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).push().key;
+//     const mainCount = firebase.database().ref(`users/${uid}/count/open`).once;
+//     const catCount = firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos/count/open`);
+//
+// console.log(mainCount, 'mainCount');
+// console.log(catCount, 'catCount');
+
+     // Write the new post's data simultaneously in the posts list and the user's post list.
+     var updates = {};
+     // updates[`users/${uid}/count/open`] += 1;
+     // updates[`users/${uid}/categories/${categoryKey}/todos/count/open`] += 1;
+     updates[`users/${uid}/categories/${categoryKey}/todos/${newPostKey}`] = todoInfo;
+     console.log('waiting for updates');
+     await firebase.database().ref().update(updates);
+
+    // const a = firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).push(todoInfo);
     this.props.navigation.goBack();
   }
 
