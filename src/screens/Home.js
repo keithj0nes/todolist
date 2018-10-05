@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { getCount, addCategory } from '../actions/getCountActions';
+import { getCount, addCategory, addCategoryKey } from '../actions/getCountActions';
 
 import AddModal from '../components/AddModal';
 
@@ -23,6 +23,18 @@ class Home extends Component {
     })
 
     this.props.getCount();
+  }
+
+
+  goToTasksScreen = async (categoryKey) => {
+
+    //store task id to redux
+    console.log('awaitng');
+    await this.props.addCategoryKey(categoryKey);
+    console.log('done, navigating');
+    //go to tasks screen
+    this.props.navigation.navigate('Todo');
+
   }
 
 
@@ -84,7 +96,7 @@ class Home extends Component {
 
             {this.state.categories && Object.keys(this.state.categories).map((categoryKey, index) => {
               return (
-                <TouchableOpacity style={styles.category} key={categoryKey} onPress={()=>this.props.navigation.navigate('Todo',{categoryKey, uid: this.state.uid})}>
+                <TouchableOpacity style={styles.category} key={categoryKey} onPress={() => this.goToTasksScreen(categoryKey)} >
                   <View style={styles.categoryTextContainer}>
                     <Text style={styles.categoryTitle}>{this.state.categories[categoryKey].title}</Text>
                   </View>
@@ -116,7 +128,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state, 'state');
+  // console.log(state, 'state');
   return {
     allCount: state.getAllCount.payload
   }
@@ -125,7 +137,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getCount: () => dispatch(getCount()),
-    addCategory: title => dispatch(addCategory(title))
+    addCategory: title => dispatch(addCategory(title)),
+    addCategoryKey: key => dispatch(addCategoryKey(key))
 
   }
 }

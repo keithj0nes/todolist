@@ -18,37 +18,40 @@ class TodoScreen extends Component {
     // firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).on('value', snapshot => {
     //   this.setState({ todos: snapshot.val() || [], uid, categoryKey })
     // })
-    console.log(categoryKey, 'CATEGORY KEY IN TODO SCREEN');
-    this.props.getTasks(categoryKey);
+    this.props.getTasks();
   }
 
+
+  goToAddTask = () => {
+    //send
+  }
   renderTodos = () => {
 
 
-  if(this.props.tasks){
-    if(Object.keys(this.props.tasks).length > 0){
-      return Object.keys(this.props.tasks).map(item => {
-        console.log(item, 'logging item');
+    if(this.props.tasks){
+      if(Object.keys(this.props.tasks).length > 0){
+        return Object.keys(this.props.tasks).map(item => {
+          console.log(item, 'logging item');
+          return (
+            <View style={{backgroundColor: '#e9e8c3', padding: 10}} key={item}>
+              <Text>{this.props.tasks[item].title}</Text>
+            </View>
+          )
+        })
+      } else {
         return (
-          <View style={{backgroundColor: '#e9e8c3', padding: 10}} key={item}>
-            <Text>{this.props.tasks[item].title}</Text>
+          <View>
+            <Text>No todos yet, add a todo!</Text>
           </View>
         )
-      })
-    } else {
-      return (
-        <View>
-          <Text>No todos yet, add a todo!</Text>
-        </View>
-      )
+      }
     }
-  }
 
 
   }
 
   render(){
-    console.log(this.props, 'PROPS SON!');
+    // console.log(this.props, 'PROPS SON!');
     return (
       <View style={styles.container}>
         <Text style={styles.title}>TodoScreen</Text>
@@ -67,14 +70,16 @@ class TodoScreen extends Component {
 }
 
 const mapStateToProps = state => {
+  // console.log(state, 'state in TodoScreen');
   return {
-    tasks: state.getTasks.payload
+    tasks: state.getTasks.payload,
+    // categoryKey: state.categories.categoryKey
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    getTasks: (categoryKey) => dispatch(getTasks(categoryKey))
+    getTasks: () => dispatch(getTasks())
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TodoScreen);

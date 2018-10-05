@@ -51,11 +51,11 @@ export const getCount = () => dispatch => {
   // }
 }
 
-export const getTasks = (categoryKey) => dispatch => {
+export const getTasks = () => (dispatch, getState) => {
   const { uid } = firebase.auth().currentUser;
-console.log(categoryKey, 'CAT KEY IN REDUX');
-  console.log('getting tasks');
-  return firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).on('value', snapshot => {
+  const state = getState();
+  console.log(state, "STATE IN GET TASKS -------");
+  return firebase.database().ref(`users/${uid}/categories/${state.categories.categoryKey}/todos`).on('value', snapshot => {
     dispatch({
       type: 'FETCH_TASKS_SUCCESS',
       payload: snapshot.val() || {}
@@ -84,6 +84,15 @@ export const addCategory = title => dispatch => {
       type: 'ADD_CAT_FAILURE',
       payload: err
     })
+  })
+}
+
+export const addCategoryKey = key => dispatch => {
+  // const { uid } = firebase.auth().currentUser;
+  console.log('adding key');
+  return dispatch({
+    type: 'ADD_CAT_KEY',
+    payload: key
   })
 }
 

@@ -61,7 +61,7 @@ export const getTasks = (state = {}, action) => {
 
 
 
-export const addCategory = (state = {}, action) => {
+export const categories = (state = {}, action) => {
   const {type, payload} = action;
   switch(type){
     case "ADD_CAT_SUCCESS":
@@ -69,6 +69,9 @@ export const addCategory = (state = {}, action) => {
     case "ADD_CAT_FAILURE":
       console.log(payload, 'addCategory failed');
       return {...state, error: payload, isLoading: false};
+    case "ADD_CAT_KEY":
+      console.log(payload, 'ADD_CAT_KEY');
+      return {...state, categoryKey: payload, isLoading: false}
     default:
       return state;
   }

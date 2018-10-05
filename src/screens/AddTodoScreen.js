@@ -29,13 +29,13 @@ class AddTodoScreen extends Component {
 // console.log(mainCount, 'mainCount');
 // console.log(catCount, 'catCount');
 
-     // Write the new post's data simultaneously in the posts list and the user's post list.
-     var updates = {};
-     // updates[`users/${uid}/count/open`] += 1;
-     // updates[`users/${uid}/categories/${categoryKey}/todos/count/open`] += 1;
-     updates[`users/${uid}/categories/${categoryKey}/todos/${newPostKey}`] = todoInfo;
-     console.log('waiting for updates');
-     await firebase.database().ref().update(updates);
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    var updates = {};
+    // updates[`users/${uid}/count/open`] += 1;
+    // updates[`users/${uid}/categories/${categoryKey}/todos/count/open`] += 1;
+    updates[`users/${uid}/categories/${categoryKey}/todos/${newPostKey}`] = todoInfo;
+    console.log('waiting for updates');
+    await firebase.database().ref().update(updates);
 
     // const a = firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).push(todoInfo);
     this.props.navigation.goBack();
@@ -44,6 +44,7 @@ class AddTodoScreen extends Component {
   componentDidMount(){
     const uid = this.props.navigation.getParam('uid');
     const categoryKey = this.props.navigation.getParam('categoryKey');
+    console.log(categoryKey, 'catky');
     this.setState({uid, categoryKey});
   }
 
