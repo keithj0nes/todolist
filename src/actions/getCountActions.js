@@ -88,7 +88,6 @@ export const addCategoryKey = key => dispatch => {
 export const addTask = title => (dispatch, getState) => {
   const { uid } = firebase.auth().currentUser;
 
-
   const date = new Date();
   const taskInfo = {
     date,
@@ -130,9 +129,30 @@ export const addTask = title => (dispatch, getState) => {
 export const deleteTask = key => (dispatch, getState) => {
   const { uid } = firebase.auth().currentUser;
   const state = getState();
+  const { allCategories, categoryKey } = state.categories;
 
-   firebase.database().ref(`users/${uid}/categories/${state.categories.categoryKey}/todos/${key}`).set(null).then(() => {
-     console.log('deleted');
-     dispatch(getCategories())
-   });
+  var updates = {};
+  updates[`users/${uid}/count/`] = state.counts.total - 1;
+  updates[`users/${uid}/categories/${categoryKey}/count`] = allCategories[categoryKey].count - 1;
+  updates[`users/${uid}/categories/${categoryKey}/todos/${key}`] = null;
+
+  firebase.database().ref().update(updates).then(() => {
+
+    // dispatch({
+    //   type: 'ADD_TASK_SUCCESS'
+    // })
+
+    dispatch(getCategories());
+
+  }).catch(err => {
+    dispatch({
+      type: 'DELETE_TASK_FAILURE',
+      payload: err
+    })
+  })
+
+   // firebase.database().ref(`users/${uid}/categories/${state.categories.categoryKey}/todos/${key}`).set(null).then(() => {
+   //   console.log('deleted');
+   //   dispatch(getCategories())
+   // });
 }

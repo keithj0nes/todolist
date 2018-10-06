@@ -7,9 +7,14 @@ import { addTask } from '../actions/getCountActions';
 
 class AddTodoScreen extends Component {
 
+
+  state = {
+    todoText: ''
+  }
+
   addTodo = async () => {
     console.log('adding task');
-    this.props.addTask(todoText);
+    this.props.addTask(this.state.todoText);
     this.props.navigation.goBack();
   }
   render(){

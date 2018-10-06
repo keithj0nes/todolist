@@ -57,7 +57,9 @@ export const tasks = (state = {}, action) => {
     case "ADD_TASK_SUCCESS":
       return {...state};
     case "ADD_TASK_FAILURE":
-      return {...state, error: payload}
+      return {...state, error: payload};
+    case "DELETE_TASK_FAILURE":
+      return {...state, error: payload};
     default:
       return state;
   }
