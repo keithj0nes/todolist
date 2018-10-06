@@ -69,11 +69,10 @@ export const getTasks = () => (dispatch, getState) => {
 
 
 export const getCategories = () => (dispatch, getState) => {
-
   const { uid } = firebase.auth().currentUser;
-
+  console.log('fire cat-----------');
   firebase.database().ref(`users/${uid}/categories`).once('value').then(snapshot => {
-    console.log(snapshot.val(), 'getCategories');
+    // console.log(snapshot.val(), 'getCategories');
     dispatch({
       type: 'GET_CATEGORIES_SUCCESS',
       payload: snapshot.val() || null
@@ -99,6 +98,10 @@ export const addCategory = title => dispatch => {
       type: 'ADD_CAT_SUCCESS',
       // payload: snapshot.val()
     })
+
+    console.log('getting cat');
+    dispatch(getCategories());
+    console.log('got cat');
   }).catch(err => {
     dispatch({
       type: 'ADD_CAT_FAILURE',
