@@ -11,16 +11,12 @@ class Home extends Component {
 
   state = {
     catText: '',
-    categories: null,
+    displayName: '',
     addModalVisible: false,
-    uid: ''
   }
 
   componentDidMount(){
     const { displayName } = firebase.auth().currentUser;
-    // firebase.database().ref(`users/${uid}/categories`).on('value', snapshot => {
-    //   this.setState({categories: snapshot.val(), uid, displayName})
-    // })
 
     this.setState({displayName});
     this.props.getCategories();
@@ -30,22 +26,15 @@ class Home extends Component {
 
   goToTasksScreen = async (categoryKey) => {
 
-    //store task id to redux
     console.log('awaitng');
     await this.props.addCategoryKey(categoryKey);
     console.log('done, navigating');
-    //go to tasks screen
     this.props.navigation.navigate('Todo');
 
   }
 
 
   addCategory = () => {
-    // const { uid } = firebase.auth().currentUser;
-    // firebase.database().ref(`users/${this.state.uid}/categories/`).push({
-    //   title: this.state.catText
-    // })
-
     this.props.addCategory(this.state.catText)
   }
 
@@ -54,9 +43,6 @@ class Home extends Component {
   }
 
   render(){
-    // console.log(this.props, 'this.props');
-    // const { displayName, uid} = firebase.auth().currentUser;
-    // console.log(firebase.auth().currentUser);
     return (
       <View style={{flex: 1}}>
         <View style={styles.container}>

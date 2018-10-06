@@ -1,31 +1,5 @@
 import firebase from 'firebase';
 
-// export function fetchSearchData(args) {
-//   return async (dispatch) => {
-//     // Initiate loading state
-//     dispatch({
-//       type: FETCH_SEARCH_DATA
-//     });
-//     try {
-//       // Call the API
-//       const result = await fetchSearchData(args.pageCount, args.itemsPerPage);
-//
-//      // Update payload in reducer on success
-//      dispatch({
-//         type: FETCH_SEARCH_SUCCESS,
-//         payload: result,
-//         currentPage: args.pageCount
-//       });
-//     } catch (err) {
-//      // Update error in reducer on failure
-//      dispatch({
-//         type: FETCH_SEARCH_FAILURE,
-//         error: err
-//       });
-//     }
-//   };
-// }
-
 export const getCount = () => dispatch => {
   const { uid } = firebase.auth().currentUser;
 
@@ -59,12 +33,6 @@ export const getTasks = () => (dispatch, getState) => {
       payload: snapshot.val() || {}
     })
   })
-  // .catch(err => {
-  //   dispatch({
-  //     type: 'FETCH_TASKS_FAILURE',
-  //     payload: err
-  //   })
-  // })
 }
 
 
@@ -85,11 +53,6 @@ export const getCategories = () => (dispatch, getState) => {
       })
   })
 
-
-
-  // firebase.database().ref(`users/${uid}/`)
-
-
 }
 
 export const addCategory = title => dispatch => {
@@ -102,7 +65,6 @@ export const addCategory = title => dispatch => {
   }).then(() => {
     dispatch({
       type: 'ADD_CAT_SUCCESS',
-      // payload: snapshot.val()
     })
     dispatch(getCategories());
   }).catch(err => {
@@ -140,7 +102,6 @@ export const addTask = title => (dispatch, getState) => {
 
   const newPostKey = firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).push().key;
 
-  // // Write the new post's data simultaneously in the posts list and the user's post list.
   var updates = {};
   updates[`users/${uid}/count/`] = state.counts.total + 1;
   updates[`users/${uid}/categories/${categoryKey}/count`] = allCategories[categoryKey].count + 1;
@@ -150,10 +111,6 @@ export const addTask = title => (dispatch, getState) => {
     dispatch({
       type: 'ADD_TASK_SUCCESS'
     })
-
-    // dispatch({
-    //   type: 'UPDATE_CAT_COUNT'
-    // })
 
     dispatch(getCategories());
 

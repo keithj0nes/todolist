@@ -87,23 +87,11 @@ export const categories = (state = {}, action) => {
       return {...state};
     case "UPDATE_CAT_COUNT":
       console.log(state, 'checking count!!');
-      // const cat = state.allCategories;
-      // const key = state.categoryKey
-      // const count = cat[key].count+1
-      // const c = cat[key]
-      // return {...state, c: count}
     default:
       return state;
   }
 
 }
-
-// export const getCount = (state = {}, action) => {
-//   const { type, payload } = action;
-//   // switch(type){
-//   //   case
-//   // }
-// }
 
 
 //

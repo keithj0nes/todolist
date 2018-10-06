@@ -6,35 +6,24 @@ import firebase from 'firebase';
 
 class TodoScreen extends Component {
 
-  state = {
-    todos: [],
-    uid: '',
-    categoryKey: ''
-  }
-
   componentDidMount(){
-    const categoryKey = this.props.navigation.getParam('categoryKey');
-    const uid = this.props.navigation.getParam('uid');
-    // firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).on('value', snapshot => {
-    //   this.setState({ todos: snapshot.val() || [], uid, categoryKey })
-    // })
     this.props.getTasks();
   }
 
 
-  goToAddTask = () => {
-    //send
-  }
+
   renderTodos = () => {
 
 
     if(this.props.tasks){
       if(Object.keys(this.props.tasks).length > 0){
         return Object.keys(this.props.tasks).map(item => {
-          console.log(item, 'logging item');
           return (
-            <View style={{backgroundColor: '#e9e8c3', padding: 10}} key={item}>
+            <View style={{backgroundColor: '#e9e8c3', padding: 10, width: '100%', alignItems: 'center'}} key={item}>
               <Text>{this.props.tasks[item].title}</Text>
+              <TouchableOpacity style={{position: 'absolute', right: 10, top: 10}} onPress={()=>this.handleDelete(item)}>
+                <Text >[delete]</Text>
+              </TouchableOpacity>
             </View>
           )
         })
@@ -51,7 +40,6 @@ class TodoScreen extends Component {
   }
 
   render(){
-    // console.log(this.props, 'PROPS SON!');
     return (
       <View style={styles.container}>
         <Text style={styles.title}>TodoScreen</Text>
@@ -60,7 +48,7 @@ class TodoScreen extends Component {
 
           {this.renderTodos()}
 
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddTodo', {uid: this.state.uid, categoryKey: this.state.categoryKey})}>
+          <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddTodo')}>
             <Text>Add Todo</Text>
           </TouchableOpacity>
         </View>
@@ -70,10 +58,8 @@ class TodoScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  // console.log(state, 'state in TodoScreen');
   return {
     tasks: state.tasks.payload,
-    // categoryKey: state.categories.categoryKey
   }
 }
 
