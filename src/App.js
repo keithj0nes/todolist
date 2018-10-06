@@ -16,6 +16,8 @@ import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import TodoScreen from './screens/TodoScreen';
 import AddTodoScreen from './screens/AddTodoScreen';
+import AddCategoryScreen from './screens/AddCategoryScreen';
+
 
 const store = createStore(reducers, {}, applyMiddleware(thunk));
 
@@ -36,6 +38,12 @@ const AppStack = createStackNavigator({
   },
   AddTodo: {
     screen: AddTodoScreen,
+    navigationOptions: {
+      header: null
+    }
+  },
+  AddCategory: {
+    screen: AddCategoryScreen,
     navigationOptions: {
       header: null
     }

@@ -89,14 +89,16 @@ class Home extends Component {
                 <TouchableOpacity style={styles.category} key={categoryKey} onPress={() => this.goToTasksScreen(categoryKey)} >
                   <View style={styles.categoryTextContainer}>
                     <Text style={styles.categoryTitle}>{this.props.categories[categoryKey].title}</Text>
-                    <Text>{this.props.categories[categoryKey].count}</Text>
+                    <Text>{this.props.categories[categoryKey].count} tasks</Text>
                   </View>
                 </TouchableOpacity>
               )
 
             })}
 
-            <TouchableOpacity style={{backgroundColor: 'red', padding: 20}} onPress={()=>this.setState({addModalVisible: !this.state.addModalVisible})}>
+            {/*<TouchableOpacity style={{backgroundColor: 'red', padding: 20}} onPress={()=>this.setState({addModalVisible: !this.state.addModalVisible})}>*/}
+            <TouchableOpacity style={{backgroundColor: 'red', padding: 20}} onPress={()=>this.props.navigation.navigate('AddCategory')}>
+
               <Text style={styles.categoryAdd}> + </Text>
             </TouchableOpacity>
 
@@ -119,7 +121,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state, 'state home');
+  // console.log(state, 'state home');
   return {
     totalCount: state.counts.total,
     closedCount: state.counts.closed,

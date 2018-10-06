@@ -28,9 +28,11 @@ class TodoScreen extends Component {
                 <Text >[toggle]</Text>
               </TouchableOpacity>
               <Text>{this.props.tasks[item].title}</Text>
-              <TouchableOpacity style={{position: 'absolute', right: 10, top: 10}} onPress={()=>this.handleDelete(item)}>
-                <Text >[delete]</Text>
-              </TouchableOpacity>
+              {this.props.tasks[item].completed && (
+                <TouchableOpacity style={{position: 'absolute', right: 10, top: 10}} onPress={()=>this.handleDelete(item)}>
+                  <Text >[delete]</Text>
+                </TouchableOpacity>
+              )}
             </View>
           )
         })
@@ -55,7 +57,7 @@ class TodoScreen extends Component {
 
           {this.renderTodos()}
 
-          <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddTodo')}>
+          <TouchableOpacity style={{marginTop: 20}}onPress={()=>this.props.navigation.navigate('AddTodo')}>
             <Text>Add Todo</Text>
           </TouchableOpacity>
         </View>

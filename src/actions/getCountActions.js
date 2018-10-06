@@ -6,7 +6,7 @@ export const getCount = () => dispatch => {
   console.log('get coutng');
   try {
     firebase.database().ref(`users/${uid}/count`).on('value', snapshot => {
-      console.log(snapshot.val(), 'snapshot.val');
+      // console.log(snapshot.val(), 'snapshot.val');
       dispatch({
         type: 'FETCH_SUCCESS',
         payload: snapshot.val() || 0
@@ -14,7 +14,7 @@ export const getCount = () => dispatch => {
     })
 
     firebase.database().ref(`users/${uid}/closed`).on('value', snapshot => {
-      console.log(snapshot.val(), 'snapshot.val');
+      // console.log(snapshot.val(), 'snapshot.val');
       dispatch({
         type: 'GET_CLOSED_SUCCESS',
         payload: snapshot.val() || 0
