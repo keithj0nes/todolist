@@ -46,9 +46,7 @@ export const getCount = () => dispatch => {
       payload: err
     })
   }
-  //   firebase.database().ref(`users/${uid}/categories`).on('value', snapshot => {
-  //
-  // }
+
 }
 
 export const getTasks = () => (dispatch, getState) => {
@@ -67,6 +65,28 @@ export const getTasks = () => (dispatch, getState) => {
   //     payload: err
   //   })
   // })
+}
+
+
+export const getCategories = () => (dispatch, getState) => {
+
+  const { uid } = firebase.auth().currentUser;
+
+  firebase.database().ref(`users/${uid}/categories`).once('value').then(snapshot => {
+    console.log(snapshot.val(), 'getCategories');
+    dispatch({
+      type: 'GET_CATEGORIES_SUCCESS',
+      payload: snapshot.val() || null
+    })
+
+  }).catch(err => {
+      dispatch({
+        type: 'GET_CATEGORIES_FAILURE',
+        payload: err
+      })
+  })
+
+
 }
 
 export const addCategory = title => dispatch => {
@@ -88,7 +108,6 @@ export const addCategory = title => dispatch => {
 }
 
 export const addCategoryKey = key => dispatch => {
-  // const { uid } = firebase.auth().currentUser;
   console.log('adding key');
   return dispatch({
     type: 'ADD_CAT_KEY',
@@ -97,7 +116,19 @@ export const addCategoryKey = key => dispatch => {
 }
 
 
-// export const addTask = title => dispatch => {
-//   const { uid } = firebase.auth().currentUser;
-//
-// }
+
+export const addTask = newTaskDetails => (dispatch, getState) => {
+  // const { uid } = firebase.auth().currentUser;
+  // const state = getState();
+  // const newPostKey = firebase.database().ref(`users/${uid}/categories/${state.categories.categoryKey}/todos`).push().key;
+  //
+  // // Write the new post's data simultaneously in the posts list and the user's post list.
+  // var updates = {};
+  // // updates[`users/${uid}/count/open`] += 1;
+  // // updates[`users/${uid}/categories/${categoryKey}/todos/count/open`] += 1;
+  // updates[`users/${uid}/categories/${categoryKey}/todos/${newPostKey}`] = todoInfo;
+  // firebase.database().ref().update(updates).then(res => {
+  //   console.log(res, 'res');
+  // };
+
+}

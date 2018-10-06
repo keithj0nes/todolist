@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { connect } from 'react-redux';
 import firebase from 'firebase';
+
+import { addTask } from '../actions/getCountActions';
 
 class AddTodoScreen extends Component {
 
@@ -69,8 +72,18 @@ class AddTodoScreen extends Component {
     )
   }
 }
+const mapStateToProps = state => {
+  return {
 
-export default AddTodoScreen;
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addTask: newTaskDetails => dispatch(addTask(newTaskDetails))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddTodoScreen);
 
 const styles = StyleSheet.create({
   container: {

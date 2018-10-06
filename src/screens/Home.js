@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
-import { getCount, addCategory, addCategoryKey } from '../actions/getCountActions';
+import { getCount, addCategory, addCategoryKey, getCategories } from '../actions/getCountActions';
 
 import AddModal from '../components/AddModal';
 
@@ -17,11 +17,13 @@ class Home extends Component {
   }
 
   componentDidMount(){
-    const { displayName, uid } = firebase.auth().currentUser;
-    firebase.database().ref(`users/${uid}/categories`).on('value', snapshot => {
-      this.setState({categories: snapshot.val(), uid, displayName})
-    })
+    const { displayName } = firebase.auth().currentUser;
+    // firebase.database().ref(`users/${uid}/categories`).on('value', snapshot => {
+    //   this.setState({categories: snapshot.val(), uid, displayName})
+    // })
 
+    this.setState({displayName});
+    this.props.getCategories();
     this.props.getCount();
   }
 
@@ -52,7 +54,7 @@ class Home extends Component {
   }
 
   render(){
-    console.log(this.props, 'this.props');
+    // console.log(this.props, 'this.props');
     // const { displayName, uid} = firebase.auth().currentUser;
     // console.log(firebase.auth().currentUser);
     return (
@@ -60,7 +62,7 @@ class Home extends Component {
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.helloText}>Hello {this.state.displayName}</Text>
-            <Text style={styles.tasksCompletedText}>{this.props.allCount} total tasks</Text>
+            <Text style={styles.tasksCompletedText}>{this.props.totalCount} total tasks</Text>
           </View>
 
           <View style={styles.categoryContainer}>
@@ -94,11 +96,11 @@ class Home extends Component {
             </TouchableOpacity>*/}
 
 
-            {this.state.categories && Object.keys(this.state.categories).map((categoryKey, index) => {
+            {this.props.categories && Object.keys(this.props.categories).map(categoryKey => {
               return (
                 <TouchableOpacity style={styles.category} key={categoryKey} onPress={() => this.goToTasksScreen(categoryKey)} >
                   <View style={styles.categoryTextContainer}>
-                    <Text style={styles.categoryTitle}>{this.state.categories[categoryKey].title}</Text>
+                    <Text style={styles.categoryTitle}>{this.props.categories[categoryKey].title}</Text>
                   </View>
                 </TouchableOpacity>
               )
@@ -128,9 +130,10 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => {
-  // console.log(state, 'state');
+  console.log(state, 'state home');
   return {
-    allCount: state.getAllCount.payload
+    totalCount: state.getAllCount.payload,
+    categories: state.categories.allCategories
   }
 }
 
@@ -138,8 +141,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getCount: () => dispatch(getCount()),
     addCategory: title => dispatch(addCategory(title)),
-    addCategoryKey: key => dispatch(addCategoryKey(key))
-
+    addCategoryKey: key => dispatch(addCategoryKey(key)),
+    getCategories: () => dispatch(getCategories())
   }
 }
 

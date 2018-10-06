@@ -45,7 +45,7 @@ export const getAllCount = (state = {}, action) => {
   }
 }
 
-export const getTasks = (state = {}, action) => {
+export const tasks = (state = {}, action) => {
   const {type, payload} = action;
   switch(type){
     case "FETCH_TASKS_SUCCESS":
@@ -70,8 +70,12 @@ export const categories = (state = {}, action) => {
       console.log(payload, 'addCategory failed');
       return {...state, error: payload, isLoading: false};
     case "ADD_CAT_KEY":
-      console.log(payload, 'ADD_CAT_KEY');
-      return {...state, categoryKey: payload, isLoading: false}
+      return {...state, categoryKey: payload, isLoading: false};
+    case "GET_CATEGORIES_SUCCESS":
+      return {...state, allCategories: payload};
+    case "GET_CATEGORIES_FAILURE":
+    console.log(payload, 'get all categories failed');
+      return {...state, error: payload};
     default:
       return state;
   }
