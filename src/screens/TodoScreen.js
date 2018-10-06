@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { getTasks } from '../actions/getCountActions';
+import { getTasks, deleteTask } from '../actions/getCountActions';
 import firebase from 'firebase';
 
 class TodoScreen extends Component {
@@ -11,7 +11,10 @@ class TodoScreen extends Component {
   }
 
 
-
+  handleDelete = (key) => {
+    console.log('deleting key', key)
+    this.props.deleteTask(key);
+  }
   renderTodos = () => {
 
 
@@ -65,7 +68,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getTasks: () => dispatch(getTasks())
+    getTasks: () => dispatch(getTasks()),
+    deleteTask: key => dispatch(deleteTask(key))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TodoScreen);

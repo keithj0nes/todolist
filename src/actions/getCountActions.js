@@ -124,3 +124,15 @@ export const addTask = title => (dispatch, getState) => {
   console.log(updates, 'updates');
 
 }
+
+
+
+export const deleteTask = key => (dispatch, getState) => {
+  const { uid } = firebase.auth().currentUser;
+  const state = getState();
+
+   firebase.database().ref(`users/${uid}/categories/${state.categories.categoryKey}/todos/${key}`).set(null).then(() => {
+     console.log('deleted');
+     dispatch(getCategories())
+   });
+}
