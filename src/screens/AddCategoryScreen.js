@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { addCategory } from '../actions/getCountActions';
+
+import icons from '../assets/iconNames.json';
 
 class AddCategoryScreen extends Component {
 
 
   state = {
-    categoryText: ''
+    categoryText: '',
+    categoryIcon: ''
   }
 
   addCategory = () => {
@@ -19,7 +23,7 @@ class AddCategoryScreen extends Component {
 
   }
   render(){
-
+    console.log(this.state, 'this.state');
     return (
       <View style={styles.container}>
         <Text>
@@ -30,6 +34,14 @@ class AddCategoryScreen extends Component {
           style={styles.input}
           placeholder={'category'}
           onChangeText={categoryText => this.setState({categoryText})}/>
+
+          {icons.map((item, ind) => {
+            return (
+              <TouchableOpacity key={ind} onPress={() => this.setState({categoryIcon: item})}>
+                <Icon name={item} size={25} color={'black'}/>
+              </TouchableOpacity>
+            )
+          })}
 
           <TouchableOpacity style={styles.submit} onPress={this.addCategory}>
             <Text>Submit</Text>
