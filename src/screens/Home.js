@@ -101,6 +101,7 @@ class Home extends Component {
                 <TouchableOpacity style={styles.category} key={categoryKey} onPress={() => this.goToTasksScreen(categoryKey)} >
                   <View style={styles.categoryTextContainer}>
                     <Text style={styles.categoryTitle}>{this.props.categories[categoryKey].title}</Text>
+                    <Text>{this.props.categories[categoryKey].count}</Text>
                   </View>
                 </TouchableOpacity>
               )
@@ -132,7 +133,7 @@ class Home extends Component {
 const mapStateToProps = state => {
   console.log(state, 'state home');
   return {
-    totalCount: state.getAllCount.payload,
+    totalCount: state.counts.total,
     categories: state.categories.allCategories
   }
 }

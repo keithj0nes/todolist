@@ -70,13 +70,13 @@ export const getTasks = () => (dispatch, getState) => {
 
 export const getCategories = () => (dispatch, getState) => {
   const { uid } = firebase.auth().currentUser;
-  console.log('fire cat-----------');
+
   firebase.database().ref(`users/${uid}/categories`).once('value').then(snapshot => {
-    // console.log(snapshot.val(), 'getCategories');
     dispatch({
       type: 'GET_CATEGORIES_SUCCESS',
       payload: snapshot.val() || null
     })
+    console.log(getState(), 'stateeeee----------');
 
   }).catch(err => {
       dispatch({
@@ -86,22 +86,25 @@ export const getCategories = () => (dispatch, getState) => {
   })
 
 
+
+  // firebase.database().ref(`users/${uid}/`)
+
+
 }
 
 export const addCategory = title => dispatch => {
   const { uid } = firebase.auth().currentUser;
 
   return firebase.database().ref(`users/${uid}/categories/`).push({
-    title
+    title,
+    count: 0,
+    // iconName  <-------- add later
   }).then(() => {
     dispatch({
       type: 'ADD_CAT_SUCCESS',
       // payload: snapshot.val()
     })
-
-    console.log('getting cat');
     dispatch(getCategories());
-    console.log('got cat');
   }).catch(err => {
     dispatch({
       type: 'ADD_CAT_FAILURE',
@@ -120,18 +123,47 @@ export const addCategoryKey = key => dispatch => {
 
 
 
-export const addTask = newTaskDetails => (dispatch, getState) => {
-  // const { uid } = firebase.auth().currentUser;
-  // const state = getState();
-  // const newPostKey = firebase.database().ref(`users/${uid}/categories/${state.categories.categoryKey}/todos`).push().key;
-  //
+export const addTask = title => (dispatch, getState) => {
+  const { uid } = firebase.auth().currentUser;
+
+
+  const date = new Date();
+  const taskInfo = {
+    date,
+    completed: false,
+    title
+  }
+
+
+  const state = getState();
+  const { allCategories, categoryKey } = state.categories;
+
+  const newPostKey = firebase.database().ref(`users/${uid}/categories/${categoryKey}/todos`).push().key;
+
   // // Write the new post's data simultaneously in the posts list and the user's post list.
-  // var updates = {};
-  // // updates[`users/${uid}/count/open`] += 1;
-  // // updates[`users/${uid}/categories/${categoryKey}/todos/count/open`] += 1;
-  // updates[`users/${uid}/categories/${categoryKey}/todos/${newPostKey}`] = todoInfo;
-  // firebase.database().ref().update(updates).then(res => {
-  //   console.log(res, 'res');
-  // };
+  var updates = {};
+  updates[`users/${uid}/count/`] = state.counts.total + 1;
+  updates[`users/${uid}/categories/${categoryKey}/count`] = allCategories[categoryKey].count + 1;
+  updates[`users/${uid}/categories/${categoryKey}/todos/${newPostKey}`] = taskInfo;
+  firebase.database().ref().update(updates).then(() => {
+
+    dispatch({
+      type: 'ADD_TASK_SUCCESS'
+    })
+
+    // dispatch({
+    //   type: 'UPDATE_CAT_COUNT'
+    // })
+
+    dispatch(getCategories());
+
+  }).catch(err => {
+    dispatch({
+      type: 'ADD_TASK_FAILURE',
+      payload: err
+    })
+  })
+
+  console.log(updates, 'updates');
 
 }

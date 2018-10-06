@@ -60,6 +60,10 @@ class SignUpScreen extends Component {
         email: this.state.email
       })
 
+      firebase.database().ref(`users/${uid}`).set({
+        count: 0
+      })
+
       console.log(data, 'data');
       this.setState({loading: false})
       this.props.navigation.navigate('App');

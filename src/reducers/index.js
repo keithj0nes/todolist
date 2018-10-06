@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import authReducer, {getAllCount, categories, tasks} from './authReducer';
+import authReducer, {counts, categories, tasks} from './authReducer';
 
 export default combineReducers({
   user: authReducer,
-  getAllCount,
+  counts,
   categories,
   tasks
   // capture: captureReducer

@@ -32,14 +32,14 @@ export const addStoryReducer = (state = {}, action) => {
 
 
 
-export const getAllCount = (state = {}, action) => {
+export const counts = (state = {}, action) => {
   const {type, payload} = action;
   switch(type){
     case "FETCH_SUCCESS":
-      return {...state, payload: payload, isLoading: false};
+      return {...state, total: payload, };
     case "FETCH_FAILURE":
       console.log(payload, 'fetch failed');
-      return {...state, error: payload, isLoading: false};
+      return {...state, error: payload, };
     default:
       return state;
   }
@@ -50,10 +50,14 @@ export const tasks = (state = {}, action) => {
   switch(type){
     case "FETCH_TASKS_SUCCESS":
     console.log(payload, 'PAYLOAD IN TAKSTS SUCESS');
-      return {...state, payload: payload, isLoading: false};
+      return {...state, payload: payload};
     case "FETCH_TASKS_FAILURE":
       console.log(payload, 'fetch tasks failed');
-      return {...state, error: payload, isLoading: false};
+      return {...state, error: payload};
+    case "ADD_TASK_SUCCESS":
+      return {...state};
+    case "ADD_TASK_FAILURE":
+      return {...state, error: payload}
     default:
       return state;
   }
@@ -65,17 +69,29 @@ export const categories = (state = {}, action) => {
   const {type, payload} = action;
   switch(type){
     case "ADD_CAT_SUCCESS":
-      return {...state, isLoading: false};
+      return {...state, };
     case "ADD_CAT_FAILURE":
       console.log(payload, 'addCategory failed');
-      return {...state, error: payload, isLoading: false};
+      return {...state, error: payload, };
     case "ADD_CAT_KEY":
-      return {...state, categoryKey: payload, isLoading: false};
+      return {...state, categoryKey: payload, };
     case "GET_CATEGORIES_SUCCESS":
       return {...state, allCategories: payload};
     case "GET_CATEGORIES_FAILURE":
+
     console.log(payload, 'get all categories failed');
       return {...state, error: payload};
+    case "GET_CATEGORIES_COUNT_SUCCESS":
+
+      console.log('payload', payload);
+      return {...state};
+    case "UPDATE_CAT_COUNT":
+      console.log(state, 'checking count!!');
+      // const cat = state.allCategories;
+      // const key = state.categoryKey
+      // const count = cat[key].count+1
+      // const c = cat[key]
+      // return {...state, c: count}
     default:
       return state;
   }
