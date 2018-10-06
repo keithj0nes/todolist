@@ -12,6 +12,15 @@ export const getCount = () => dispatch => {
         payload: snapshot.val() || 0
       })
     })
+
+    firebase.database().ref(`users/${uid}/closed`).on('value', snapshot => {
+      console.log(snapshot.val(), 'snapshot.val');
+      dispatch({
+        type: 'GET_CLOSED_SUCCESS',
+        payload: snapshot.val() || 0
+      })
+    })
+
   }
   catch (err) {
     console.log(err, 'errorrrr');
@@ -91,6 +100,7 @@ export const addTask = title => (dispatch, getState) => {
   const date = new Date();
   const taskInfo = {
     date,
+    completedDate: null,
     completed: false,
     title
   }
@@ -120,8 +130,42 @@ export const addTask = title => (dispatch, getState) => {
     })
   })
 
-  console.log(updates, 'updates');
+  // console.log(updates, 'updates');
 
+}
+
+
+export const toggleTask = key => (dispatch, getState) => {
+  const { uid } = firebase.auth().currentUser;
+  const state = getState();
+  const { allCategories, categoryKey } = state.categories;
+  console.log('toggling');
+  const task = state.tasks.payload[key];
+
+  const date = new Date();
+
+  const obj = {
+    ...task,
+    completed: !task.completed,
+    completedDate: task.completed ? null : date
+  }
+  console.log(obj, 'logging toggle Object');
+
+  var updates = {}
+  updates[`users/${uid}/closed`] = obj.completed ? state.counts.closed + 1 : state.counts.closed - 1;
+  updates[`users/${uid}/categories/${categoryKey}/todos/${key}`] = obj;
+
+  firebase.database().ref().update(updates).then(() => {
+
+    console.log('update successful');
+    // dispatch(getCategories());
+
+  }).catch(err => {
+    dispatch({
+      type: 'DELETE_TASK_FAILURE',
+      payload: err
+    })
+  })
 }
 
 
@@ -131,8 +175,10 @@ export const deleteTask = key => (dispatch, getState) => {
   const state = getState();
   const { allCategories, categoryKey } = state.categories;
 
+  console.log(state, 'state');
   var updates = {};
   updates[`users/${uid}/count/`] = state.counts.total - 1;
+  updates[`users/${uid}/closed/`] = state.counts.closed - 1;
   updates[`users/${uid}/categories/${categoryKey}/count`] = allCategories[categoryKey].count - 1;
   updates[`users/${uid}/categories/${categoryKey}/todos/${key}`] = null;
 

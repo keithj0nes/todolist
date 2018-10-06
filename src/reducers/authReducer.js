@@ -37,6 +37,8 @@ export const counts = (state = {}, action) => {
   switch(type){
     case "FETCH_SUCCESS":
       return {...state, total: payload, };
+    case "GET_CLOSED_SUCCESS":
+      return {...state, closed: payload, };
     case "FETCH_FAILURE":
       console.log(payload, 'fetch failed');
       return {...state, error: payload, };

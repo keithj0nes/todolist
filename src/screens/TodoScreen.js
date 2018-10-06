@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { getTasks, deleteTask } from '../actions/getCountActions';
+import { getTasks, deleteTask, toggleTask } from '../actions/getCountActions';
 import firebase from 'firebase';
 
 class TodoScreen extends Component {
@@ -21,8 +21,12 @@ class TodoScreen extends Component {
     if(this.props.tasks){
       if(Object.keys(this.props.tasks).length > 0){
         return Object.keys(this.props.tasks).map(item => {
+          console.log(this.props.tasks[item]);
           return (
-            <View style={{backgroundColor: '#e9e8c3', padding: 10, width: '100%', alignItems: 'center'}} key={item}>
+            <View style={{backgroundColor: this.props.tasks[item].completed ? 'red' : '#e9e8c3', padding: 10, width: '100%', alignItems: 'center'}} key={item}>
+              <TouchableOpacity style={{position: 'absolute', left: 10, top: 10}} onPress={()=>this.props.toggleTask(item)}>
+                <Text >[toggle]</Text>
+              </TouchableOpacity>
               <Text>{this.props.tasks[item].title}</Text>
               <TouchableOpacity style={{position: 'absolute', right: 10, top: 10}} onPress={()=>this.handleDelete(item)}>
                 <Text >[delete]</Text>
@@ -69,7 +73,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getTasks: () => dispatch(getTasks()),
-    deleteTask: key => dispatch(deleteTask(key))
+    deleteTask: key => dispatch(deleteTask(key)),
+    toggleTask: key => dispatch(toggleTask(key))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(TodoScreen);

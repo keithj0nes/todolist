@@ -49,6 +49,8 @@ class Home extends Component {
           <View style={styles.header}>
             <Text style={styles.helloText}>Hello {this.state.displayName}</Text>
             <Text style={styles.tasksCompletedText}>{this.props.totalCount} total tasks</Text>
+            <Text style={styles.tasksCompletedText}>{this.props.closedCount} completed tasks</Text>
+
           </View>
 
           <View style={styles.categoryContainer}>
@@ -120,6 +122,7 @@ const mapStateToProps = state => {
   console.log(state, 'state home');
   return {
     totalCount: state.counts.total,
+    closedCount: state.counts.closed,
     categories: state.categories.allCategories
   }
 }

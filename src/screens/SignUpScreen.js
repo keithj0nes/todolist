@@ -61,7 +61,8 @@ class SignUpScreen extends Component {
       })
 
       firebase.database().ref(`users/${uid}`).set({
-        count: 0
+        count: 0,
+        closed: 0
       })
 
       console.log(data, 'data');
