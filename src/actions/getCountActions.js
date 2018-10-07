@@ -202,3 +202,39 @@ export const deleteTask = key => (dispatch, getState) => {
    //   dispatch(getCategories())
    // });
 }
+
+
+export const updateCategoryName = title => (dispatch, getState) => {
+  const { uid } = firebase.auth().currentUser;
+  const state = getState();
+  const { allCategories, categoryKey } = state.categories;
+
+
+  const categoryDetails = {
+    ...allCategories[categoryKey],
+    title
+  }
+
+  console.log(categoryDetails, 'categoryDetails');
+
+  var updates = {};
+  updates[`users/${uid}/categories/${categoryKey}`] = categoryDetails;
+
+
+  firebase.database().ref().update(updates).then(() => {
+
+    // dispatch({
+    //   type: 'ADD_TASK_SUCCESS'
+    // })
+
+    dispatch(getCategories());
+    console.log('update title successful');
+
+  }).catch(err => {
+    dispatch({
+      type: 'DELETE_TASK_FAILURE',
+      payload: err
+    })
+  })
+
+}

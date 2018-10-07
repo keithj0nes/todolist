@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { updateCategoryName } from '../actions/getCountActions';
 
 import Proptypes from 'prop-types';
 
@@ -20,6 +21,8 @@ class EditSlideOut extends Component {
 
   handleChangeCategory = () => {
     console.log('done button pressed');
+    this.props.updateCategoryName(this.state.categoryName);
+    this.props.toggleFunc();
   }
 
   handleDeleteCategory = () => {
@@ -73,7 +76,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    
+    updateCategoryName: title => dispatch(updateCategoryName(title))
   }
 }
 

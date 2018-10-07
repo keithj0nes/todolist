@@ -92,6 +92,7 @@ class TodoScreen extends Component {
 
 
         <EditSlideOut
+          navigation={this.props.navigation}
           isVisible={this.state.editModalVisible}
           toggleFunc={()=>{this.setState({editModalVisible: !this.state.editModalVisible})}}
           onChangeText={this.handleCategoryText}
