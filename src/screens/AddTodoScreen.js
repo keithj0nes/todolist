@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 
@@ -14,6 +14,14 @@ class AddTodoScreen extends Component {
 
   addTodo = async () => {
     console.log('adding task');
+    if(!this.state.todoText){
+      return Alert.alert(
+        'No Task',
+        'Please enter a task',
+        [{text: 'OK', onPress: () => console.log('OK pressed')}]
+      )
+    }
+
     this.props.addTask(this.state.todoText);
     this.props.navigation.goBack();
   }
@@ -31,7 +39,7 @@ class AddTodoScreen extends Component {
           onChangeText={todoText => this.setState({todoText})}/>
 
           <TouchableOpacity style={styles.submit} onPress={this.addTodo}>
-            <Text>Submit</Text>
+            <Text style={{color: '#fff'}}>Add Task</Text>
           </TouchableOpacity>
       </View>
     )
@@ -64,7 +72,12 @@ const styles = StyleSheet.create({
     marginVertical: 5
   },
   submit: {
-    backgroundColor: 'pink',
-    padding: 20,
+    marginTop: 20,
+    backgroundColor: '#F6374C',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+    width: '50%',
+    borderRadius: 50
   }
 })

@@ -20,7 +20,7 @@ class TodoScreen extends Component {
     if(this.props.tasks){
       if(Object.keys(this.props.tasks).length > 0){
         return Object.keys(this.props.tasks).map(item => {
-          console.log(this.props.tasks[item]);
+          // console.log(this.props.tasks[item]);
           return (
             <View style={{backgroundColor: '#fff', padding: 10, width: '100%', alignItems: 'center', borderBottomWidth: 1, borderColor: '#ccc'}} key={item}>
               <TouchableOpacity style={{position: 'absolute', left: 10, top: 7}} onPress={()=>this.props.toggleTask(item)}>
@@ -58,8 +58,8 @@ class TodoScreen extends Component {
 
           {this.renderTodos()}
 
-          <TouchableOpacity style={{marginTop: 20}}onPress={()=>this.props.navigation.navigate('AddTodo')}>
-            <Text>Add Todo</Text>
+          <TouchableOpacity style={styles.addButton} onPress={()=>this.props.navigation.navigate('AddTodo')}>
+            <Text style={{fontSize: 40, color: '#fff'}}> + </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -98,5 +98,14 @@ const styles = StyleSheet.create({
     flex: 5,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  addButton: {
+    borderTopLeftRadius: 40,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: '#F6374C',
+    padding: 14
   }
 })
