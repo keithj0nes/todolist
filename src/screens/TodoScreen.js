@@ -3,13 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { getTasks, deleteTask, toggleTask } from '../actions/getCountActions';
 import firebase from 'firebase';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class TodoScreen extends Component {
-
   componentDidMount(){
     this.props.getTasks();
   }
-
 
   handleDelete = (key) => {
     console.log('deleting key', key)
@@ -23,11 +22,13 @@ class TodoScreen extends Component {
         return Object.keys(this.props.tasks).map(item => {
           console.log(this.props.tasks[item]);
           return (
-            <View style={{backgroundColor: this.props.tasks[item].completed ? 'red' : '#e9e8c3', padding: 10, width: '100%', alignItems: 'center'}} key={item}>
-              <TouchableOpacity style={{position: 'absolute', left: 10, top: 10}} onPress={()=>this.props.toggleTask(item)}>
-                <Text >[toggle]</Text>
+            <View style={{backgroundColor: '#fff', padding: 10, width: '100%', alignItems: 'center', borderBottomWidth: 1, borderColor: '#ccc'}} key={item}>
+              <TouchableOpacity style={{position: 'absolute', left: 10, top: 7}} onPress={()=>this.props.toggleTask(item)}>
+                <Icon name={this.props.tasks[item].completed ? 'checkbox-marked-circle' :'checkbox-blank-circle-outline'} color={'#00ff44'} size={25}/>
               </TouchableOpacity>
-              <Text>{this.props.tasks[item].title}</Text>
+
+              <Text style={{color: this.props.tasks[item].completed ? '#ccc' : '#666'}}>{this.props.tasks[item].title}</Text>
+
               {this.props.tasks[item].completed && (
                 <TouchableOpacity style={{position: 'absolute', right: 10, top: 10}} onPress={()=>this.handleDelete(item)}>
                   <Text >[delete]</Text>
