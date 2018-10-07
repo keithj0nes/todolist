@@ -64,13 +64,13 @@ export const getCategories = () => (dispatch, getState) => {
 
 }
 
-export const addCategory = title => dispatch => {
+export const addCategory = (title, iconName) => dispatch => {
   const { uid } = firebase.auth().currentUser;
 
   return firebase.database().ref(`users/${uid}/categories/`).push({
     title,
     count: 0,
-    // iconName  <-------- add later
+    iconName
   }).then(() => {
     dispatch({
       type: 'ADD_CAT_SUCCESS',

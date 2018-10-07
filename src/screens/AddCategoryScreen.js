@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -18,7 +18,14 @@ class AddCategoryScreen extends Component {
 
   addCategory = () => {
     console.log('adding category');
-    this.props.addCategory(this.state.categoryText)
+    if(!this.state.categoryText){
+      return Alert.alert(
+        'No Title',
+        'Please enter a title for your category',
+        [{text: 'OK', onPress: () => console.log('OK pressed')}]
+      )
+    }
+    this.props.addCategory(this.state.categoryText, this.state.categoryIcon || 'airplane')
     this.props.navigation.goBack();
 
   }
@@ -37,7 +44,7 @@ class AddCategoryScreen extends Component {
 
           {icons.map((item, ind) => {
             return (
-              <TouchableOpacity key={ind} onPress={() => this.setState({categoryIcon: item})}>
+              <TouchableOpacity key={ind} style={{backgroundColor: this.state.categoryIcon === item ? '#00d83a' : null}}onPress={() => this.setState({categoryIcon: item})}>
                 <Icon name={item} size={25} color={'black'}/>
               </TouchableOpacity>
             )
@@ -58,7 +65,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addCategory: title => dispatch(addCategory(title))
+    addCategory: (title, iconName) => dispatch(addCategory(title, iconName))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddCategoryScreen);

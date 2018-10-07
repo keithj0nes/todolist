@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
 import { getCount, addCategory, addCategoryKey, getCategories } from '../actions/getCountActions';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import AddModal from '../components/AddModal';
 
@@ -88,6 +89,7 @@ class Home extends Component {
               return (
                 <TouchableOpacity style={styles.category} key={categoryKey} onPress={() => this.goToTasksScreen(categoryKey)} >
                   <View style={styles.categoryTextContainer}>
+                    <Icon name={this.props.categories[categoryKey].iconName} color={'red'} size={25} />
                     <Text style={styles.categoryTitle}>{this.props.categories[categoryKey].title}</Text>
                     <Text>{this.props.categories[categoryKey].count} tasks</Text>
                   </View>
