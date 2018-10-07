@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { getTasks, deleteTask, toggleTask } from '../actions/getCountActions';
 import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import EditSlideOut from '../components/EditSlideOut';
 
 class TodoScreen extends Component {
+
+  state = {
+    editModalVisible: false
+  }
+
   componentDidMount(){
     this.props.getTasks();
   }
 
   handleDelete = (key) => {
     console.log('deleting key', key)
-    this.props.deleteTask(key);
+    Alert.alert(
+      'Are you sure?',
+      'This cannot be undone',
+      [
+        {text: 'cancel', onPress:()=>console.log('canceled')},
+        {text: 'delete', onPress:()=>this.props.deleteTask(key)}
+      ]
+    )
   }
+
+
   renderTodos = () => {
 
 
@@ -45,14 +60,26 @@ class TodoScreen extends Component {
         )
       }
     }
-
-
   }
-
   render(){
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>TodoScreen</Text>
+        <View style={styles.header}>
+
+
+          <Text style={styles.title}>{this.props.categoryName}</Text>
+
+            <TouchableOpacity onPress={()=>this.setState({editModalVisible: !this.state.editModalVisible})}>
+              <Icon name={'square-edit-outline'} color={'#000'} size={15}/>
+
+            </TouchableOpacity>
+
+
+
+
+
+        </View>
+
 
         <View style={styles.todosContainer}>
 
@@ -62,13 +89,24 @@ class TodoScreen extends Component {
             <Text style={{fontSize: 40, color: '#fff'}}> + </Text>
           </TouchableOpacity>
         </View>
+
+
+        <EditSlideOut
+          isVisible={this.state.editModalVisible}
+          toggleFunc={()=>{this.setState({editModalVisible: !this.state.editModalVisible})}}
+          onChangeText={this.handleCategoryText}
+          onSubmit={this.addCategory}
+          />
+
       </View>
     )
   }
 }
 
 const mapStateToProps = state => {
+
   return {
+    categoryName: state.categories.allCategories[state.categories.categoryKey].title,
     tasks: state.tasks.payload,
   }
 }
@@ -88,15 +126,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'pink',
   },
+  header: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
   title: {
     fontSize: 25,
-    alignSelf: 'center',
-    flex: 1,
+    // alignSelf: 'center',
+    // flex: 1,
   },
   todosContainer: {
     backgroundColor: 'yellow',
     flex: 5,
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    paddingTop: 20,
     alignItems: 'center'
   },
   addButton: {
