@@ -8,6 +8,13 @@ import EditSlideOut from '../components/EditSlideOut';
 
 class TodoScreen extends Component {
 
+  static navigationOptions = ({ navigation }) => {
+    return {
+      swipeEnabled: navigation.getParam('EditSlideOutActive', true),
+      gesturesEnabled: navigation.getParam('EditSlideOutActive', true),
+    };
+  };
+
   state = {
     editModalVisible: false
   }
@@ -26,6 +33,11 @@ class TodoScreen extends Component {
         {text: 'delete', onPress:()=>this.props.deleteTask(key)}
       ]
     )
+  }
+
+  handleEditSlideOut = () => {
+    this.props.navigation.setParams({EditSlideOutActive: this.state.editModalVisible})
+    this.setState({editModalVisible: !this.state.editModalVisible})
   }
 
 
@@ -69,7 +81,7 @@ class TodoScreen extends Component {
 
           <Text style={styles.title}>{this.props.categoryName}</Text>
 
-            <TouchableOpacity onPress={()=>this.setState({editModalVisible: !this.state.editModalVisible})}>
+            <TouchableOpacity onPress={this.handleEditSlideOut}>
               <Icon name={'square-edit-outline'} color={'#000'} size={15}/>
 
             </TouchableOpacity>
@@ -94,7 +106,7 @@ class TodoScreen extends Component {
         <EditSlideOut
           navigation={this.props.navigation}
           isVisible={this.state.editModalVisible}
-          toggleFunc={()=>{this.setState({editModalVisible: !this.state.editModalVisible})}}
+          toggleFunc={this.handleEditSlideOut}
           onChangeText={this.handleCategoryText}
           onSubmit={this.addCategory}
           />
