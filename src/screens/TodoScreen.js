@@ -105,10 +105,10 @@ class TodoScreen extends Component {
 }
 
 const mapStateToProps = state => {
-
+  console.log(state, 'state in TodoScreen');
   return {
-    categoryName: state.categories.allCategories[state.categories.categoryKey].title,
-    tasks: state.tasks.payload,
+    categoryName: state.categories.allCategories[state.categories.categoryKey] && state.categories.allCategories[state.categories.categoryKey].title || null,
+    tasks: state.tasks.payload || null,
   }
 }
 

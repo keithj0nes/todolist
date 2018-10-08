@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { updateCategoryName } from '../actions/getCountActions';
+import { updateCategoryName, deleteCategory } from '../actions/getCountActions';
 
 import Proptypes from 'prop-types';
 
@@ -31,13 +31,15 @@ class EditSlideOut extends Component {
       'This will delete all tasks in this category and cannot be undone',
       [
         {text: 'Cancel', onPress: () => console.log('canceled delete')},
-        {text: 'Delete', onPress: () => console.log('DELETED!')}
+        {text: 'Delete', onPress: () => {this.props.navigation.goBack(); this.props.deleteCategory()}}
       ]
     )
   }
 
+
+
   render(){
-    console.log(this.props, 'this.props');
+    // console.log(this.props, 'this.props');
     if(this.props.isVisible ){
       return (
         <View style={styles.container}>
@@ -70,13 +72,14 @@ class EditSlideOut extends Component {
 
 const mapStateToProps = state => {
   return {
-    categoryName: state.categories.allCategories[state.categories.categoryKey].title,
+    categoryName: state.categories.allCategories[state.categories.categoryKey] && state.categories.allCategories[state.categories.categoryKey].title || null,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateCategoryName: title => dispatch(updateCategoryName(title))
+    updateCategoryName: title => dispatch(updateCategoryName(title)),
+    deleteCategory: () => dispatch(deleteCategory())
   }
 }
 

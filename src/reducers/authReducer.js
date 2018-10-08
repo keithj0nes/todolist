@@ -91,6 +91,13 @@ export const categories = (state = {}, action) => {
       return {...state};
     case "UPDATE_CAT_COUNT":
       console.log(state, 'checking count!!');
+
+
+    case "NULLIFY_TITLE":
+      return {...state}
+
+
+
     default:
       return state;
   }

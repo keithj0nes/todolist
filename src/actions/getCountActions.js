@@ -56,6 +56,7 @@ export const getCategories = () => (dispatch, getState) => {
     console.log(getState(), 'stateeeee----------');
 
   }).catch(err => {
+    console.log('getting categroyes cfailed');
       dispatch({
         type: 'GET_CATEGORIES_FAILURE',
         payload: err
@@ -232,7 +233,38 @@ export const updateCategoryName = title => (dispatch, getState) => {
 
   }).catch(err => {
     dispatch({
-      type: 'DELETE_TASK_FAILURE',
+      type: 'UPDATE_CATEGORY_FAILURE',
+      payload: err
+    })
+  })
+
+}
+
+export const deleteCategory = title => (dispatch, getState) => {
+  const { uid } = firebase.auth().currentUser;
+  const state = getState();
+  const { allCategories, categoryKey } = state.categories;
+
+  dispatch({
+    type: 'NULLIFY_TITLE',
+  })
+
+  var updates = {};
+  updates[`users/${uid}/count/`] = state.counts.total - allCategories[categoryKey].count;
+  updates[`users/${uid}/closed/`] = state.counts.closed - allCategories[categoryKey].count;
+  updates[`users/${uid}/categories/${categoryKey}`] = null;
+  firebase.database().ref().update(updates).then(() => {
+
+    // dispatch({
+    //   type: 'ADD_TASK_SUCCESS'
+    // })
+    console.log('deleteCategory successful');
+    dispatch(getCategories());
+    console.log('delete category successful');
+
+  }).catch(err => {
+    dispatch({
+      type: 'DELETE_CATEGORY_FAILURE',
       payload: err
     })
   })
