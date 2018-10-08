@@ -71,6 +71,7 @@ export const addCategory = (title, iconName) => dispatch => {
   return firebase.database().ref(`users/${uid}/categories/`).push({
     title,
     count: 0,
+    closed: 0,
     iconName
   }).then(() => {
     dispatch({
@@ -140,7 +141,7 @@ export const toggleTask = key => (dispatch, getState) => {
   const { uid } = firebase.auth().currentUser;
   const state = getState();
   const { allCategories, categoryKey } = state.categories;
-  console.log('toggling');
+  // console.log('toggling');
   const task = state.tasks.payload[key];
 
   const date = new Date();
@@ -150,16 +151,18 @@ export const toggleTask = key => (dispatch, getState) => {
     completed: !task.completed,
     completedDate: task.completed ? null : date
   }
-  console.log(obj, 'logging toggle Object');
+  // console.log(obj, 'logging toggle Object');
 
+  // console.log(allCategories[categoryKey], 'woohooooo----');
   var updates = {}
   updates[`users/${uid}/closed`] = obj.completed ? state.counts.closed + 1 : state.counts.closed - 1;
+  updates[`users/${uid}/categories/${categoryKey}/closed`] =  obj.completed ? allCategories[categoryKey].closed + 1 : allCategories[categoryKey].closed - 1;
   updates[`users/${uid}/categories/${categoryKey}/todos/${key}`] = obj;
 
   firebase.database().ref().update(updates).then(() => {
 
-    console.log('update successful');
-    // dispatch(getCategories());
+    // console.log('update successful');
+    dispatch(getCategories());
 
   }).catch(err => {
     dispatch({
@@ -181,6 +184,7 @@ export const deleteTask = key => (dispatch, getState) => {
   updates[`users/${uid}/count/`] = state.counts.total - 1;
   updates[`users/${uid}/closed/`] = state.counts.closed - 1;
   updates[`users/${uid}/categories/${categoryKey}/count`] = allCategories[categoryKey].count - 1;
+  updates[`users/${uid}/categories/${categoryKey}/closed`] = allCategories[categoryKey].closed - 1;
   updates[`users/${uid}/categories/${categoryKey}/todos/${key}`] = null;
 
   firebase.database().ref().update(updates).then(() => {
@@ -249,9 +253,10 @@ export const deleteCategory = title => (dispatch, getState) => {
     type: 'NULLIFY_TITLE',
   })
 
+  console.log(state, 'STATE INSIDE THE DELTE HAHAHAHAHA');
   var updates = {};
   updates[`users/${uid}/count/`] = state.counts.total - allCategories[categoryKey].count;
-  updates[`users/${uid}/closed/`] = state.counts.closed - allCategories[categoryKey].count;
+  updates[`users/${uid}/closed/`] = state.counts.closed - allCategories[categoryKey].closed;
   updates[`users/${uid}/categories/${categoryKey}`] = null;
   firebase.database().ref().update(updates).then(() => {
 
