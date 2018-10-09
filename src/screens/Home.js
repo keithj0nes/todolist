@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import firebase from 'firebase';
 import { getCount, addCategory, addCategoryKey, getCategories } from '../actions/getCountActions';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
+
 
 import mainStyles from '../assets/styles';
 import AddModal from '../components/AddModal';
@@ -45,15 +47,16 @@ class Home extends Component {
   }
 
   render(){
+
     return (
 
         <View style={styles.container}>
           <View style={styles.header}>
 
-            <View style={styles.helloTextContainer}>
+            <LinearGradient colors={[mainStyles.darkPurple, '#544F9A']}  start={{x: 0.3, y: 1}} end={{x: 1, y: 0.4}} style={styles.helloTextContainer}>
               <Text style={styles.helloText}>Hello</Text>
               <Text style={styles.helloText}>{this.state.displayName}</Text>
-            </View>
+            </LinearGradient>
 
 
             <View style={styles.countContainer}>
