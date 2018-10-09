@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import LinearGradient from 'react-native-linear-gradient';
 
 import { addTask } from '../actions/getCountActions';
+
+import mainStyles from '../assets/styles';
 
 class AddTodoScreen extends Component {
 
@@ -28,7 +31,10 @@ class AddTodoScreen extends Component {
   render(){
 
     return (
-      <View style={styles.container}>
+      <View style={{flex:1}}>
+
+
+      <LinearGradient colors={[mainStyles.darkPurple, '#6560A4']}   start={{x: 0.3, y: 1}} end={{x: 1, y: 0.1}} style={styles.container}>
         <Text>
           AddTodoScreen
         </Text>
@@ -41,7 +47,14 @@ class AddTodoScreen extends Component {
           <TouchableOpacity style={styles.submit} onPress={this.addTodo}>
             <Text style={{color: '#fff'}}>Add Task</Text>
           </TouchableOpacity>
+      </LinearGradient>
+
+      {/*<View style={{height: 230, backgroundColor: 'red', width: '100%'}}>
+
+      </View>*/}
+
       </View>
+
     )
   }
 }
