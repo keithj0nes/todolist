@@ -5,6 +5,7 @@ import firebase from 'firebase';
 import { getCount, addCategory, addCategoryKey, getCategories } from '../actions/getCountActions';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import mainStyles from '../assets/styles';
 import AddModal from '../components/AddModal';
 
 class Home extends Component {
@@ -45,12 +46,36 @@ class Home extends Component {
 
   render(){
     return (
-      <View style={{flex: 1}}>
+
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.helloText}>Hello {this.state.displayName}</Text>
-            <Text style={styles.tasksCompletedText}>{this.props.totalCount} total tasks</Text>
-            <Text style={styles.tasksCompletedText}>{this.props.closedCount} completed tasks</Text>
+
+            <View style={styles.helloTextContainer}>
+              <Text style={styles.helloText}>Hello</Text>
+              <Text style={styles.helloText}>{this.state.displayName}</Text>
+            </View>
+
+
+            <View style={styles.countContainer}>
+              <View style={styles.counts}>
+                <Text style={styles.countsNumber}>{this.props.totalCount}</Text>
+                <View>
+                  <Text style={styles.grayText}>Created</Text>
+                  <Text style={styles.grayText}>Tasks</Text>
+                </View>
+              </View>
+
+              <View style={styles.counts}>
+                <Text style={styles.countsNumber}>{this.props.closedCount}</Text>
+                <View>
+                  <Text style={styles.grayText}>Completed</Text>
+                  <Text style={styles.grayText}>Tasks</Text>
+                </View>
+              </View>
+
+
+            </View>
+
 
           </View>
 
@@ -89,9 +114,9 @@ class Home extends Component {
               return (
                 <TouchableOpacity style={styles.category} key={categoryKey} onPress={() => this.goToTasksScreen(categoryKey)} >
                   <View style={styles.categoryTextContainer}>
-                    <Icon name={this.props.categories[categoryKey].iconName} color={'red'} size={25} />
+                    <Icon name={this.props.categories[categoryKey].iconName} color={styles.icon.color} size={25} />
                     <Text style={styles.categoryTitle}>{this.props.categories[categoryKey].title}</Text>
-                    <Text>{this.props.categories[categoryKey].count} tasks</Text>
+                    <Text style={styles.categoryTasks}>{this.props.categories[categoryKey].count} tasks</Text>
                   </View>
                 </TouchableOpacity>
               )
@@ -99,23 +124,22 @@ class Home extends Component {
             })}
 
             {/*<TouchableOpacity style={{backgroundColor: 'red', padding: 20}} onPress={()=>this.setState({addModalVisible: !this.state.addModalVisible})}>*/}
-            <TouchableOpacity style={{backgroundColor: 'red', padding: 20}} onPress={()=>this.props.navigation.navigate('AddCategory')}>
+            {/*<TouchableOpacity style={{backgroundColor: 'red', padding: 20}} onPress={()=>this.props.navigation.navigate('AddCategory')}>
 
               <Text style={styles.categoryAdd}> + </Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
 
 
 
           </View>
+
+
+
+          <TouchableOpacity style={styles.addButton} onPress={()=>this.props.navigation.navigate('AddCategory')}>
+            <Text style={{fontSize: 40, color: '#fff'}}> + </Text>
+          </TouchableOpacity>
         </View>
 
-        <AddModal
-          isVisible={this.state.addModalVisible}
-          toggleFunc={()=>{this.setState({addModalVisible: !this.state.addModalVisible})}}
-          onChangeText={this.handleCategoryText}
-          onSubmit={this.addCategory}
-          />
-      </View>
 
 
     )
@@ -147,42 +171,78 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    paddingHorizontal: 20,
-    paddingTop: 22,
+    // paddingHorizontal: 20,
+    // paddingTop: 22,
+    backgroundColor: '#eee',
   },
   header: {
     // backgroundColor: 'red',
     // flex: 1,
+    backgroundColor: mainStyles.lightPurple,
     width: '100%',
-    marginTop: 30
+    // marginTop: 30
   },
-  categoryContainer: {
-    backgroundColor: 'blue',
-    // flex: 1,
-    flexDirection: 'row',
-    width: '100%',
-    paddingTop: 22,
-    flexWrap: 'wrap',
-    justifyContent: 'space-between'
+
+  helloTextContainer: {
+    paddingVertical: 40,
+    paddingHorizontal: 30,
   },
   helloText: {
     fontSize: 38,
-    fontWeight: 'bold',
-    color: '#444',
+    color: mainStyles.lightText,
+    // paddingVertical: 40,
+    // paddingHorizontal: 30,
+    fontFamily: 'HelveticaNeue-Light'
   },
-  tasksCompletedText: {
-    fontSize: 18,
-    color: '#aaa'
+
+
+  countContainer: {
+    backgroundColor: mainStyles.darkPurple,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
   },
+
+  counts: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    opacity: 0.6,
+    // width: '50%'
+
+  },
+  countsNumber: {
+    color: mainStyles.lightText,
+    fontSize: 25,
+    paddingRight: 8,
+  },
+
+  grayText: {
+    color: mainStyles.lightText,
+  },
+
+  categoryContainer: {
+    backgroundColor: '#eee',
+    // flex: 1,
+    flexDirection: 'row',
+    width: '100%',
+    // paddingTop: 22,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between'
+  },
+
   category: {
     // height: 180,
-    width: '47%',
-    backgroundColor: 'white',
-    borderRadius: 12,
-    marginTop: 20,
+    width: '50%',
+    backgroundColor: '#eee',
+    // borderRadius: 12,
+    // marginTop: 20,
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 25
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+    padding: 15
   },
   categoryIcon: {
     borderRadius: 100,
@@ -191,23 +251,37 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     opacity: 0.35
   },
+  icon: {
+    color: mainStyles.accentGreen,
+  },
   categoryTextContainer: {
     // backgroundColor: 'green',
-    marginTop: 45,
+    // marginTop: 45,
     alignItems: 'center'
   },
   categoryTitle: {
-    fontSize: 21,
-    color: '#333',
-    fontWeight: 'bold'
+    fontSize: 18,
+    color: mainStyles.darkText,
+    // fontWeight: 'bold'
+    paddingBottom: 4,
+    paddingTop: 6
   },
   categoryTasks: {
-    fontSize: 16,
-    color: '#bbb',
+    fontSize: 14,
+    color: mainStyles.darkText,
   },
   categoryAdd: {
     alignSelf: 'center',
     fontSize: 38,
     color: '#bbb'
+  },
+  addButton: {
+    borderTopLeftRadius: 40,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: mainStyles.warnRed,
+    padding: 14
   }
 })
