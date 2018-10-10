@@ -124,6 +124,23 @@ class Home extends Component {
                 </TouchableOpacity>
               )
 
+              // other layout
+
+              // return (
+              //   <TouchableOpacity style={styles.category} key={categoryKey} onPress={() => this.goToTasksScreen(categoryKey)} >
+              //       <View style={{backgroundColor: 'pink', paddingRight: 15}}>
+              //
+              //         <Icon name={this.props.categories[categoryKey].iconName} color={styles.icon.color} size={25} />
+              //       </View>
+              //       <View style={{backgroundColor: 'yellow', flexWrap: 'wrap'}}>
+              //
+              //         <Text style={styles.categoryTitle}>{this.props.categories[categoryKey].title}</Text>
+              //         <Text style={styles.categoryTasks}>{this.props.categories[categoryKey].count} tasks</Text>
+              //
+              //       </View>
+              //   </TouchableOpacity>
+              // )
+
             })}
 
             {/*<TouchableOpacity style={{backgroundColor: 'red', padding: 20}} onPress={()=>this.setState({addModalVisible: !this.state.addModalVisible})}>*/}
@@ -195,7 +212,7 @@ const styles = StyleSheet.create({
     color: mainStyles.lightText,
     // paddingVertical: 40,
     // paddingHorizontal: 30,
-    fontFamily: 'HelveticaNeue-Light'
+    fontFamily: mainStyles.mainFont
   },
 
 
@@ -238,14 +255,17 @@ const styles = StyleSheet.create({
     // height: 180,
     width: '50%',
     backgroundColor: '#eee',
+    // backgroundColor: 'red',
     // borderRadius: 12,
     // marginTop: 20,
+    // flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#ddd',
     padding: 15
+    // padding: 25
   },
   categoryIcon: {
     borderRadius: 100,

@@ -17,5 +17,6 @@ export default mainStyles = {
   warnRed: '#F6374C',
   accentGreen: '#74BC22',
   darkText: '#5E5B69',
-  lightText: '#A6A0C8'
+  lightText: '#A6A0C8',
+  mainFont: 'HelveticaNeue-Light'
 }
