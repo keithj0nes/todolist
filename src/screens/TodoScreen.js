@@ -5,6 +5,7 @@ import { getTasks, deleteTask, toggleTask } from '../actions/getCountActions';
 import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EditSlideOut from '../components/EditSlideOut';
+import Header from '../components/Header';
 
 class TodoScreen extends Component {
 
@@ -76,22 +77,13 @@ class TodoScreen extends Component {
   render(){
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
 
-
-          <Text style={styles.title}>{this.props.categoryName}</Text>
-
-            <TouchableOpacity onPress={this.handleEditSlideOut}>
-              <Icon name={'square-edit-outline'} color={'#000'} size={15}/>
-
-            </TouchableOpacity>
-
-
-
-
-
-        </View>
-
+        <Header
+          title={this.props.categoryName}
+          navigation={this.props.navigation}
+          edit={this.handleEditSlideOut}
+          gradient
+          />
 
         <View style={styles.todosContainer}>
 
@@ -138,12 +130,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'pink',
-  },
-  header: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row'
   },
   title: {
     fontSize: 25,

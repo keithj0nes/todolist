@@ -1,11 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
-const Header = ({title, navigation}) => {
-  console.log('haha');
+
+const Header = ({title, navigation, edit, gradient}) => {
+
+  // little hack to only display the gradient if the gradient prop is true
+  const colors = gradient ? [mainStyles.darkPurple, '#6560A4'] : ['rgba(0,0,0,0), rgba(0,0,0,0)']
   return (
-    <View style={styles.header}>
+    <LinearGradient colors={colors}  start={{x: 0.3, y: 1}} end={{x: 1, y: 0.4}} style={styles.helloTextContainer}>
 
       <TouchableOpacity style={styles.left} onPress={()=>navigation.goBack()}>
         <Icon name={'arrow-left'} size={25} color={mainStyles.lightText} />
@@ -15,18 +19,25 @@ const Header = ({title, navigation}) => {
         {title}
       </Text>
 
-    </View>
+      {edit ? (
+        <TouchableOpacity onPress={this.edit}>
+          <Icon name={'square-edit-outline'} color={'#000'} size={15}/>
+        </TouchableOpacity>
+      )
+      : null}
+      </LinearGradient>
   )
 }
+
 
 
 export default Header;
 
 const styles = StyleSheet.create({
-  header: {
+  helloTextContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   headerTitle: {
     color: mainStyles.lightText,
