@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { addCategory } from '../actions/getCountActions';
+import Header from '../components/Header';
 
 import mainStyles from '../assets/styles';
 import icons from '../assets/iconNames.json';
@@ -18,9 +19,6 @@ class AddCategoryScreen extends Component {
     categoryIcon: ''
   }
 
-  componentDidMount(){
-    this.textinput.focus();
-  }
 
   addCategory = () => {
     console.log('adding category');
@@ -33,8 +31,9 @@ class AddCategoryScreen extends Component {
     }
     this.props.addCategory(this.state.categoryText, this.state.categoryIcon || 'airplane')
     this.props.navigation.goBack();
-
   }
+
+
   render(){
     console.log(this.state, 'this.state');
     return (
@@ -42,17 +41,14 @@ class AddCategoryScreen extends Component {
 
         <LinearGradient colors={[mainStyles.darkPurple, '#6560A4']}   start={{x: 0.3, y: 1}} end={{x: 1, y: 0.1}} style={styles.container}>
 
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>
-            Add New Category
-          </Text>
-        </View>
+        <Header title={'Add New Category'} navigation={this.props.navigation}/>
 
 
         <View style={styles.borderContainer}>
           <TextInput
             style={styles.input}
             autoCorrect={false}
+            autoFocus={true}
             keyboardAppearance={'dark'}
             placeholder={'category'}
             placeholderTextColor={'#6661A1'}
