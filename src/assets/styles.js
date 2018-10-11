@@ -18,5 +18,7 @@ export default mainStyles = {
   accentGreen: '#74BC22',
   darkText: '#5E5B69',
   lightText: '#A6A0C8',
-  mainFont: 'HelveticaNeue-Light'
+  mainFont: 'HelveticaNeue-Light',
+  borderGray: '#ddd',
+  backgroundGray: '#eee'
 }

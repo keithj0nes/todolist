@@ -20,7 +20,7 @@ const Header = ({title, navigation, edit, gradient}) => {
       </Text>
 
       {edit ? (
-        <TouchableOpacity onPress={this.edit}>
+        <TouchableOpacity onPress={edit}>
           <Icon name={'square-edit-outline'} color={'#000'} size={15}/>
         </TouchableOpacity>
       )

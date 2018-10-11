@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     width: '100%',
     // paddingHorizontal: 20,
     // paddingTop: 22,
-    backgroundColor: '#eee',
+    backgroundColor: mainStyles.backgroundGray,
   },
   header: {
     // backgroundColor: 'red',
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderRightWidth: 1,
     borderBottomWidth: 1,
-    borderColor: '#ddd',
+    borderColor: mainStyles.borderGray,
     padding: 15
     // padding: 25
   },
