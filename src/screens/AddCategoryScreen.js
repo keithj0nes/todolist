@@ -16,7 +16,7 @@ class AddCategoryScreen extends Component {
 
   state = {
     categoryText: '',
-    categoryIcon: ''
+    categoryIcon: '' || icons[0]
   }
 
 
@@ -29,13 +29,17 @@ class AddCategoryScreen extends Component {
         [{text: 'OK', onPress: () => console.log('OK pressed')}]
       )
     }
-    this.props.addCategory(this.state.categoryText, this.state.categoryIcon || 'airplane')
+    this.props.addCategory(this.state.categoryText, this.state.categoryIcon)
     this.props.navigation.goBack();
+  }
+
+  clearText = () => {
+    this.setState({categoryText: ''})
+    this.textinput.clear();
   }
 
 
   render(){
-    console.log(this.state, 'this.state');
     return (
       <View style={{flex:1}}>
 
@@ -57,8 +61,13 @@ class AddCategoryScreen extends Component {
             ref={input => this.textinput = input}
             />
 
-          {/*<View style={{width: 30, height: '100%'}}>
-          </View>*/}
+
+          {this.state.categoryText ?  (
+            <TouchableOpacity onPress={this.clearText} style={{padding: 10, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{fontSize: 18, color: mainStyles.lightText}}>X</Text>
+            </TouchableOpacity>
+          )
+          : null}
         </View>
 
 
@@ -76,7 +85,7 @@ class AddCategoryScreen extends Component {
         </View>
 
 
-          <TouchableOpacity style={styles.submit} onPress={this.addTodo}>
+          <TouchableOpacity style={styles.submit} onPress={this.addCategory}>
             <Text style={{color: '#fff'}}>Add Category</Text>
           </TouchableOpacity>
         </LinearGradient>
@@ -125,7 +134,8 @@ const styles = StyleSheet.create({
     // marginVertical: 5
     // marginRight: 30
     color: mainStyles.lightText,
-    marginTop: 30,
+    // marginTop: 30,
+    // backgroundColor: 'pink'
   },
   submit: {
     marginTop: 5,
@@ -138,11 +148,13 @@ const styles = StyleSheet.create({
     borderRadius: 50
   },
   borderContainer: {
+    // backgroundColor: 'green',
     borderBottomWidth: 1,
     borderColor: '#6661A1',
     marginLeft: 20,
-    paddingRight: 50,
+    paddingRight: 60,
     width: '100%',
+    flexDirection: 'row'
     // opacity: 0.15,
   }
 })
