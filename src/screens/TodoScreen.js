@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, Animated, Dimensions} from 'react-native';
 import { connect } from 'react-redux';
 import { getTasks, deleteTask, toggleTask } from '../actions/getCountActions';
 import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EditSlideOut from '../components/EditSlideOut';
 import Header from '../components/Header';
+
+
 
 class TodoScreen extends Component {
 
@@ -17,7 +19,8 @@ class TodoScreen extends Component {
   };
 
   state = {
-    editModalVisible: false
+    editModalVisible: false,
+    bounceValue: new Animated.Value(0),
   }
 
   componentDidMount(){
@@ -37,8 +40,31 @@ class TodoScreen extends Component {
   }
 
   handleEditSlideOut = () => {
-    this.props.navigation.setParams({EditSlideOutActive: this.state.editModalVisible})
+    this.props.navigation.setParams({EditSlideOutActive: this.state.editModalVisible}) //to disable swipe back when active
+
+    var toValue = Dimensions.get('window').height;
+
+    if(this.state.editModalVisible) {
+      toValue = 0;
+    }
+
+    //This will animate the transalteY of the subview between 0 & 100 depending on its current state
+    //100 comes from the style below, which is the height of the subview.
+    Animated.spring(
+      this.state.bounceValue,
+      {
+        toValue: -toValue,
+        velocity: 50,
+        tension: 2,
+        friction: 8,
+      }
+    ).start();
+
+    // isHidden = !isHidden;
     this.setState({editModalVisible: !this.state.editModalVisible})
+
+
+
   }
 
 
@@ -96,13 +122,23 @@ class TodoScreen extends Component {
           <Text style={{fontSize: 40, color: '#fff'}}> + </Text>
         </TouchableOpacity>
 
-        <EditSlideOut
-          navigation={this.props.navigation}
-          isVisible={this.state.editModalVisible}
-          toggleFunc={this.handleEditSlideOut}
-          onChangeText={this.handleCategoryText}
-          onSubmit={this.addCategory}
-          />
+
+
+        <Animated.View
+          style={[styles.slideOut,
+            {transform: [{translateY: this.state.bounceValue}]}]}
+          >
+
+          <EditSlideOut
+            navigation={this.props.navigation}
+            isVisible={this.state.editModalVisible}
+            toggleFunc={this.handleEditSlideOut}
+            onChangeText={this.handleCategoryText}
+            onSubmit={this.addCategory}
+            />
+
+        </Animated.View>
+
 
       </View>
     )
@@ -176,5 +212,14 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     bottom: 4,
     opacity: 0.1,
+  },
+  slideOut: {
+    position: "absolute",
+    // bottom: '100%',
+    left: 0,
+    right: 0,
+    top: '100%',
+    backgroundColor: "red",
+    height: '100%',
   }
 })
