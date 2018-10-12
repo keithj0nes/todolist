@@ -54,16 +54,13 @@ class TodoScreen extends Component {
       this.state.bounceValue,
       {
         toValue: -toValue,
-        velocity: 50,
-        tension: 2,
-        friction: 8,
+        // velocity: 50,
+        tension: 30,
+        friction: 10,
       }
     ).start();
 
-    // isHidden = !isHidden;
     this.setState({editModalVisible: !this.state.editModalVisible})
-
-
 
   }
 
