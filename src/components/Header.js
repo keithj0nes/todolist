@@ -11,7 +11,7 @@ const Header = ({title, navigation, edit, gradient}) => {
   return (
     <LinearGradient colors={colors}  start={{x: 0.3, y: 1}} end={{x: 1, y: 0.4}} style={styles.helloTextContainer}>
 
-      <TouchableOpacity style={styles.left} onPress={()=>navigation.goBack()}>
+      <TouchableOpacity style={[styles.iconContainer, {left: 0}]} onPress={()=>navigation.goBack()}>
         <Icon name={'arrow-left'} size={25} color={mainStyles.lightText} />
       </TouchableOpacity>
 
@@ -20,8 +20,8 @@ const Header = ({title, navigation, edit, gradient}) => {
       </Text>
 
       {edit ? (
-        <TouchableOpacity onPress={edit}>
-          <Icon name={'square-edit-outline'} color={'#000'} size={15}/>
+        <TouchableOpacity style={[styles.iconContainer, {right: 0}]} onPress={edit}>
+          <Icon name={'settings'} color={mainStyles.lightText} size={25}/>
         </TouchableOpacity>
       )
       : null}
@@ -46,11 +46,10 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 20,
   },
-  left: {
+  iconContainer: {
     height: '100%',
     position: 'absolute',
-    left: 0,
-    padding: 10,
+    padding: 15,
     paddingTop: 37,
     justifyContent: 'center',
     alignItems: 'center'
